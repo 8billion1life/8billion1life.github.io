@@ -1,6 +1,6 @@
 // 8 Milyar 1 Hayat – çevrimdışı önbellek. Sürüm değişince CACHE adını artır.
-const CACHE = 'b1h-v2';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './icons/maskable-512.png'];
+const CACHE = 'b1h-v3';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './maskable-512.png'];
 const CDN = ['https://cdn.tailwindcss.com'];
 
 self.addEventListener('install', e => {

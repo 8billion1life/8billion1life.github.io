@@ -1752,6 +1752,7 @@ function updateUI() {
   document.getElementById("life-fill").style.width = Math.min(100, g.age / g.country.life * 100) + "%";
   set("life-label", `Ülke ortalaması: ${g.country.life} yıl`);
   renderFamilyPortrait();
+  if (typeof syncAutoUI === "function") syncAutoUI();
 }
 
 function renderFamilyPortrait() {
@@ -2751,6 +2752,7 @@ function spinAndStart() { cinematicNewLife(); }
   startNewLife = function (opts) {
     base(opts);
     try { setMiniGlobe(gameState.country); } catch (e) {}
+    try { syncAutoUI(); } catch (e) {}
     try { const h = document.getElementById("control-bar"); if (h) h.classList.remove("hidden"); } catch (e) {}
   };
 })();
@@ -2805,7 +2807,7 @@ function syncAutoUI() {
   btn.classList.toggle("on", on);
   btn.firstChild.textContent = on ? "⏸ " : "▶ ";
   document.getElementById("auto-label").innerText = on ? "Durdur" : "Otomatik";
-  btn.disabled = !live && !on; btn.style.opacity = btn.disabled ? ".45" : "1";
+  btn.disabled = !live && !on; btn.style.opacity = btn.disabled ? ".45" : "1"; btn.setAttribute("aria-disabled", String(btn.disabled));
   const bar = document.getElementById("auto-bar"); if (bar) bar.classList.toggle("hidden", !on);
   document.querySelectorAll(".spd[data-spd]").forEach(b => b.classList.toggle("on", +b.dataset.spd === autoSpeed));
 }

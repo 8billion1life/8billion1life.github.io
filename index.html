@@ -19,7 +19,7 @@
         if (window.tailwind) tailwind.config = { darkMode: 'class', theme: { extend: { colors: { darkbg: '#090d16', cardbg: '#131b2e', accent: '#f59e0b' } } } }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -51,6 +51,50 @@
         #feedback-modal, #notification-modal { padding-top: max(1rem, env(safe-area-inset-top)); padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
         #story-content svg { max-width: 100%; height: auto; }
         #story-content, #choices-container, #news-list li { overflow-wrap: anywhere; word-break: break-word; }
+
+        /* ---- Sinematik tema ---- */
+        :root { --gold: #e8b45c; }
+        html { background: #05070d; }
+        body { background: radial-gradient(1100px 650px at 82% -8%, rgba(36,72,138,.38), transparent 62%), radial-gradient(900px 600px at 6% 108%, rgba(140,70,20,.20), transparent 62%), #05070d !important; position: relative; }
+        body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+            background:
+              radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.9), transparent), radial-gradient(1px 1px at 33% 72%, rgba(255,255,255,.7), transparent),
+              radial-gradient(1.4px 1.4px at 58% 28%, rgba(255,255,255,.8), transparent), radial-gradient(1px 1px at 81% 64%, rgba(255,255,255,.7), transparent),
+              radial-gradient(1px 1px at 91% 12%, rgba(255,255,255,.8), transparent), radial-gradient(1.2px 1.2px at 47% 91%, rgba(255,255,255,.6), transparent),
+              radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.5), transparent), radial-gradient(1px 1px at 22% 46%, rgba(255,255,255,.6), transparent),
+              radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.62) 100%); }
+        body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 2; opacity: .07; mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+        body.is-dead::before { background-blend-mode: normal; box-shadow: inset 0 0 220px rgba(120,10,10,.35); }
+        header, main, footer { position: relative; z-index: 5; }
+        header { z-index: 40; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+        .bg-cardbg { background: linear-gradient(160deg, rgba(19,29,52,.93), rgba(9,14,27,.95)) !important; border-color: rgba(232,180,92,.15) !important; box-shadow: 0 24px 70px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05) !important; }
+        .bg-amber-500 { background-image: linear-gradient(180deg, #f7c867, #d9901f) !important; }
+        #event-list h3 { font-size: 1.45rem; letter-spacing: .01em; text-shadow: 0 0 28px rgba(232,180,92,.35); }
+        #event-list p { background: rgba(7,11,22,.62) !important; border-color: rgba(232,180,92,.10) !important; }
+        #choices-container button { background: rgba(8,13,26,.82); transition: border-color .2s, box-shadow .2s, transform .1s; }
+        #choices-container button:hover { border-color: rgba(232,180,92,.55); box-shadow: 0 0 0 1px rgba(232,180,92,.22), 0 10px 34px rgba(0,0,0,.45); }
+        .fade-in { animation: fadeIn .7s cubic-bezier(.16,1,.3,1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        .hero-globe-btn { background: none; border: 0; padding: 0; width: min(76vw, 310px); aspect-ratio: 1; display: block; margin: 0 auto; min-height: 0; cursor: pointer; filter: drop-shadow(0 0 40px rgba(60,120,230,.35)); transition: transform .4s; }
+        .hero-globe-btn:hover { transform: scale(1.03); }
+        .hero-globe-btn canvas, .mini-globe-canvas, #overlay-globe { width: 100%; height: 100%; display: block; }
+        .mini-globe-canvas { width: 56px; height: 56px; filter: drop-shadow(0 0 10px rgba(80,150,255,.5)); }
+        .ctl { background: rgba(8,13,26,.85); border: 1px solid rgba(232,180,92,.28); color: #e2e8f0; border-radius: 14px; padding: .5rem .4rem; font-size: .78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: .35rem; transition: border-color .2s, background .2s; }
+        .ctl:hover { border-color: rgba(232,180,92,.7); background: rgba(20,30,52,.95); }
+        .ctl.on { background: linear-gradient(180deg, rgba(232,180,92,.28), rgba(232,180,92,.12)); border-color: #e8b45c; color: #fde68a; }
+        .spd { min-height: 36px; padding: .2rem .7rem; border-radius: 10px; border: 1px solid rgba(100,116,139,.5); font-size: .75rem; font-weight: 700; color: #cbd5e1; background: rgba(8,13,26,.8); }
+        .spd.on { border-color: #e8b45c; color: #fde68a; background: rgba(232,180,92,.15); }
+        #globe-overlay { position: fixed; inset: 0; z-index: 80; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; background: radial-gradient(ellipse at center, rgba(7,14,30,.97), #02040a 75%); padding: 1rem; }
+        #globe-overlay.show { display: flex; animation: ovIn .5s ease both; }
+        @keyframes ovIn { from { opacity: 0; } to { opacity: 1; } }
+        #overlay-globe { width: min(62vmin, 380px); height: min(62vmin, 380px); filter: drop-shadow(0 0 60px rgba(60,120,230,.45)); }
+        #overlay-caption { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; color: #fde68a; text-align: center; letter-spacing: .02em; text-shadow: 0 0 30px rgba(232,180,92,.45); min-height: 4.2rem; }
+        #overlay-caption span { font-family: 'Plus Jakarta Sans', sans-serif; font-size: .85rem; color: #94a3b8; letter-spacing: .08em; text-transform: uppercase; }
+        #overlay-caption .flag { font-size: 2rem; }
+        .log-item { border-left: 2px solid rgba(232,180,92,.35); padding-left: .9rem; margin-left: .3rem; position: relative; }
+        .log-item::before { content: ""; position: absolute; left: -5px; top: .35rem; width: 8px; height: 8px; border-radius: 50%; background: #e8b45c; box-shadow: 0 0 10px rgba(232,180,92,.7); }
         @media (max-width: 639px) {
             #status-bars { grid-template-columns: 1fr 1fr; gap: 0.5rem; padding: 0.75rem; }
             #status-bars > div:last-child { grid-column: 1 / -1; }
@@ -72,7 +116,7 @@
             <span class="text-2xl sm:text-3xl">🌍</span>
             <div>
                 <h1 class="font-bold text-lg sm:text-xl tracking-wide bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent">8 Milyar 1 Hayat</h1>
-                <p class="text-[10px] text-slate-400 hidden sm:block">Psikolojik & Demografik Karar Simülasyonu</p>
+                <p class="text-[10px] text-slate-400 hidden sm:block tracking-widest uppercase">Bir doğum. Bir ömür. Binlerce karar.</p>
             </div>
         </div>
         <div class="flex items-center gap-3"><span id="collection-badge" class="hidden sm:inline text-[11px] bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-lg text-amber-300">🌍 Koleksiyon</span><button onclick="openFeedbackModal()" class="bg-slate-800 hover:bg-slate-700/80 border border-slate-700/60 px-3.5 py-2 rounded-xl text-slate-300 transition text-xs sm:text-sm font-medium flex items-center space-x-1.5 shadow-sm"><span>📩</span> <span id="feedback-btn-label">Öneri & Şikayet</span></button></div>
@@ -83,12 +127,12 @@
         <section class="order-2 lg:order-1 lg:col-span-1 bg-cardbg border border-slate-800/80 rounded-3xl p-5 flex flex-col items-center text-center h-fit shadow-xl relative overflow-hidden">
             <div id="country-color-bar" class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-500 to-orange-500 transition-colors duration-1000"></div>
             <div class="flex items-center justify-between w-full px-2 mb-4 mt-2">
-                <div class="w-10 flex justify-center"><div id="mini-globe-container" class="hidden"><div id="mini-globe" class="mini-globe"></div></div></div>
+                <div class="w-14 flex justify-center"><div id="mini-globe-container" class="hidden"><canvas id="mini-globe-canvas" class="mini-globe-canvas" width="56" height="56"></canvas></div></div>
                 <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-slate-700 overflow-hidden flex items-center justify-center shadow-inner group mx-auto" id="avatar-container">
                     <span id="avatar-icon" class="text-6xl transition-all duration-500 transform group-hover:scale-105">❓</span>
                     <div class="absolute bottom-1 right-1 bg-slate-950/80 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-amber-400 border border-slate-700" id="avatar-badge">-</div>
                 </div>
-                <div class="w-10"></div>
+                <div class="w-14"></div>
             </div>
             <h2 id="char-name" class="font-bold text-lg text-slate-100 mb-0.5">Kader Bekleniyor</h2>
             <p id="char-country" class="text-xs text-amber-400/90 font-medium mb-1 px-2.5 py-1 bg-amber-500/10 rounded-lg border border-amber-500/20">...</p>
@@ -115,6 +159,14 @@
         </section>
 
         <section class="order-1 lg:order-2 lg:col-span-3 flex flex-col space-y-5 min-w-0">
+            <div id="control-bar" class="hidden space-y-2">
+                <div class="grid grid-cols-3 gap-2">
+                    <button class="ctl" onclick="openLog()" aria-label="Hayat günlüğü">📜 <span>Günlük</span></button>
+                    <button class="ctl" id="auto-btn" onclick="toggleAuto()" aria-label="Otomatik oynat">▶ <span id="auto-label">Otomatik</span></button>
+                    <button class="ctl" onclick="newLifeClick()" aria-label="Yeni hayat">🌍 <span>Yeni Hayat</span></button>
+                </div>
+                <div id="auto-bar" class="hidden flex items-center justify-center gap-2 text-xs text-slate-400"><span>⚡ Hız:</span><button class="spd" data-spd="1" onclick="setAutoSpeed(1)">1x</button><button class="spd" data-spd="2" onclick="setAutoSpeed(2)">2x</button><button class="spd" data-spd="4" onclick="setAutoSpeed(4)">4x</button><span class="text-slate-500 hidden sm:inline">· durdurmak için ⏸'a bas</span></div>
+            </div>
             <div id="status-bars" class="bg-cardbg border border-slate-800/80 rounded-3xl p-4 sm:p-5 grid grid-cols-3 gap-2 sm:gap-4 text-center shadow-xl hidden">
                 <div class="bg-slate-900/50 p-3 rounded-2xl border border-slate-800/60">
                     <div class="flex justify-between items-center text-xs mb-1.5"><span class="text-slate-400 font-medium">❤️ Sağlık</span> <span id="val-health" class="font-bold text-red-400">100%</span></div>
@@ -147,10 +199,10 @@
                 </div>
                 <div id="story-content" class="space-y-4 text-slate-200 leading-relaxed text-sm sm:text-base">
                     <div class="text-center py-10 space-y-6 fade-in">
-                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-100">Derinlikli Karakter Simülasyonu</h2>
-                        <p class="text-slate-400 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">Her yıl karşına bir olay çıkacak. Verdiğin her karar psikolojini, ailenı, servetini ve hayatının sonunu değiştirecek. Dünya küresine dokun ve kaderini başlat.</p>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 leading-tight">Doğduğun Yeri<br>Sen Seçmezsin.</h2>
+                        <p class="text-slate-400 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">Küre seni bir ülkeye, bir aileye, bir kadere bırakacak. Sonrası yalnızca kararların: her yıl bir seçim, her seçim bir bedel. Bir bebek olarak başla, bir ömrü tüket.</p>
                         <div class="flex items-center justify-center mt-6">
-                            <div class="globe-container" onclick="spinAndStart()" title="Dünya'yı çevirip rastgele başla!"><div class="globe" id="interactive-globe">🌍</div></div>
+                            <div class="text-center w-full"><button type="button" class="hero-globe-btn" onclick="spinAndStart()" aria-label="Dünyayı döndür ve yeni bir hayata doğ"><canvas id="hero-globe" width="260" height="260"></canvas></button><p class="text-[11px] text-amber-300/80 tracking-[.3em] uppercase mt-3">Dünyaya dokun ve doğ</p></div>
                         </div>
                         <div class="mt-12 bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80 max-w-2xl mx-auto">
                             <h3 class="text-sm font-bold text-slate-300 mb-3 text-left">Dünya Nüfus Oranları (Doğum İhtimali)</h3>
@@ -179,6 +231,25 @@
                 <button onclick="closeFeedbackModal()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition">İptal</button>
                 <button id="feedback-send" onclick="sendFeedback()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition shadow-md">Gönder</button>
             </div>
+        </div>
+    </div>
+    <div id="globe-overlay" aria-hidden="true"><canvas id="overlay-globe" width="380" height="380"></canvas><div id="overlay-caption"></div></div>
+    <div id="confirm-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[70] hidden items-center justify-center p-4" style="display:none">
+        <div class="bg-cardbg border border-slate-700/80 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center fade-in">
+            <div class="text-5xl mb-3">🌍</div>
+            <h4 id="confirm-title" class="serif font-bold text-slate-100 text-xl mb-1">Emin misin?</h4>
+            <p id="confirm-msg" class="text-sm text-slate-300 mb-5 leading-relaxed"></p>
+            <div class="flex gap-2"><button onclick="closeConfirm()" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl text-sm font-semibold">Vazgeç</button><button id="confirm-ok" onclick="confirmOk()" class="flex-1 py-3 bg-amber-500 text-slate-950 font-bold rounded-2xl text-sm">Tamam</button></div>
+        </div>
+    </div>
+    <div id="log-modal" class="fixed inset-0 bg-black/75 backdrop-blur-md z-[60] hidden items-center justify-center p-3" style="display:none">
+        <div class="bg-cardbg border border-slate-700/80 rounded-3xl w-full max-w-2xl max-h-[88dvh] flex flex-col shadow-2xl fade-in">
+            <div class="flex items-center justify-between p-4 sm:p-5 border-b border-slate-800">
+                <div><h3 class="serif text-xl font-bold text-amber-300">📜 Hayat Günlüğü</h3><p id="log-sub" class="text-[11px] text-slate-400"></p></div>
+                <div class="flex items-center gap-2"><button id="log-order" onclick="toggleLogOrder()" class="spd">En yeni ↑</button><button onclick="closeLog()" class="spd" aria-label="Kapat">✕</button></div>
+            </div>
+            <div class="px-4 sm:px-5 pt-3"><input id="log-search" oninput="renderLog()" type="search" placeholder="Günlükte ara (ör. kriz, iş, aşk)…" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl p-2.5 text-slate-200 text-sm focus:outline-none focus:border-amber-500"></div>
+            <div id="log-list" class="overflow-y-auto p-4 sm:p-5 space-y-4" style="-webkit-overflow-scrolling: touch"></div>
         </div>
     </div>
     <div id="notification-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4" style="display:none">
@@ -498,7 +569,7 @@ E("loan", 22, 45, "💸 Arkadaşın Borç İstiyor",
 E("abroad", 23, 35, "✈️ Yurtdışı Teklifi",
   ["Yurtdışından bir şirket sana iş teklif etti.", "Maaş harika ama ailenden ve dilinden uzak olacaksın.", "Büyük bir risk, büyük bir fırsat."],
   () => [
-    C("🛫 Git.", 0, 6, 0.6, "Yeni bir ülke, yeni bir sen.", { salx: 1.5, salFloor: 1.5, t: { cesur: 1, risk: 1 }, gamble: { p: 0.3, m: -14, res: "Uyum sağlayamadın; bir yıl sonra eve döndün." } }),
+    C("🛫 Git.", 0, 6, 0.6, "Yeni bir ülke, yeni bir sen.", { mig: "work", salx: 1.5, salFloor: 1.5, t: { cesur: 1, risk: 1 }, gamble: { p: 0.3, m: -14, res: "Uyum sağlayamadın; bir yıl sonra eve döndün." } }),
     C("🏡 Kal.", 0, 5, 0, "Köklerinin yanında kaldın.", { t: { aile: 1 } })]);
 
 E("startup", 24, 40, "💡 Büyük Fikir",
@@ -1332,7 +1403,7 @@ E("birth", 0, 0, "👶 Dünyaya Geliş",
 E("path_pl", 18, 18, "🎓 Mezuniyet: Zor Yol Ayrımı", ["Liseyi bitirdin; ailen sana güveniyor ama cüzdan boş.", "Arkadaşların bir kısmı çoktan çalışmaya başladı.", "Gelecek için ne yapacaksın?"], () => [
   C(gameState.scholar ? "🎓 Burslu üniversiteye başla." : "🎓 Burs sınavına gir (zor ama mümkün).", 0, 5, gameState.scholar ? 0 : -.15, "Kampüs kapıları sana açıldı.", { job: "Üniversite Öğrencisi", sal: 0, t: { bilgi: 2 }, gamble: gameState.scholar ? null : { p: .55, m: -14, w: -.1, job: "İşsiz", sal: 0, res: "Burs sınavını kazanamadın; ailen hayal kırıklığına uğradı." } }),
   C("🏭 Hemen çalışmaya başla.", -4, -2, .2, "Maaş küçük ama düzenli.", { job: "Fabrika Çalışanı", sal: .9, t: { hirs: 1 } }),
-  C("🌍 Gurbete çık.", -3, -4, .1, "Yeni bir ülkede sıfırdan başlıyorsun.", { job: "Göçmen İşçi", sal: 1.1, t: { risk: 2 }, gamble: { p: .35, h: -10, m: -12, w: -.2, job: "İşsiz", sal: 0, res: "Yolda kandırıldın; parasız ve çaresiz kaldın." } }),
+  C("🌍 Gurbete çık.", -3, -4, .1, "Yeni bir ülkede sıfırdan başlıyorsun.", { mig: "work", job: "Göçmen İşçi", sal: 1.1, t: { risk: 2 }, gamble: { p: .35, h: -10, m: -12, w: -.2, job: "İşsiz", sal: 0, res: "Yolda kandırıldın; parasız ve çaresiz kaldın." } }),
   C("🤝 Aile işine / mahalle esnafına katıl.", 0, 3, .1, "Ailenin dükkanında/tarlasında çalışmaya başladın.", { job: "Esnaf Çırağı", sal: .7, t: { aile: 1 } })],
   { must: true, cls: PL });
 E("path_md", 18, 18, "🎓 Mezuniyet: Yol Ayrımı", ["Lise bitti. Diploma elinde, gelecek önünde.", "Ailen destek olmaya hazır ama beklentileri de var.", "Yolunu seçmek zorundasın."], () => [
@@ -1342,7 +1413,7 @@ E("path_md", 18, 18, "🎓 Mezuniyet: Yol Ayrımı", ["Lise bitti. Diploma elind
   C("🌍 Gönüllü olup dünyayı gez.", 0, 18, -.3, "Farklı kültürler gözünü açtı.", { job: "Gönüllü Gezgin", sal: .2, t: { sefkat: 1, risk: 1 } })],
   { must: true, cls: MD });
 E("path_rf", 18, 18, "🎓 Mezuniyet: Seçenekler Bol", ["Mezuniyet töreninde ailen en ön sırada; fotoğrafçılar da öyle.", "Her kapı sana açık görünüyor ama hepsinin bedeli farklı.", "Hangi yolu seçeceksin?"], () => [
-  C("🎓 Dünyanın en iyi üniversitelerinden birine git.", -1, 6, -.6, "Yurtdışı kampüsünde yeni bir hayat başladı.", { job: "Üniversite Öğrencisi", sal: 0, t: { bilgi: 2 } }),
+  C("🎓 Dünyanın en iyi üniversitelerinden birine git.", -1, 6, -.6, "Yurtdışı kampüsünde yeni bir hayat başladı.", { mig: "study", job: "Üniversite Öğrencisi", sal: 0, t: { bilgi: 2 } }),
   C("🏢 Aile şirketinde göreve başla.", -2, 2, .3, "İlk günden büyük bir ofisin oldu.", { job: "Genç Yönetici", sal: 3, t: { hirs: 1 } }),
   C("🚀 Kendi girişimini kur.", -4, 10, -.5, "Ailenin sermayesini riske attın.", { job: "Genç Girişimci", sal: 1.5, t: { cesur: 2, risk: 1 }, gamble: { p: .5, w: -1, m: -15, job: "İşsiz", sal: 0, res: "Girişim ilk yıl battı; aile sermayesi eridi." } }),
   C("🎭 Sanat/spor kariyeri seç.", 0, 12, -.1, "Ailenin ağı kapıları açtı ama yeteneğini kanıtlaman gerekiyor.", { job: "Genç Sanatçı", sal: 1, t: { sanat: 2 } })],
@@ -1383,7 +1454,7 @@ X("ad_union", 24, 55, PL, "✊ İşçi Eylemi", ["Fabrikada maaşlar aylardır g
   C("✊ Katıl.", -3, 6, 0, "Greve çıktın; kazanırsan zam alacaksın.", { t: { cesur: 1, sosyal: 1 }, gamble: { p: .4, w: -.2, m: -8, job: "İşsiz", sal: 0, res: "Grev bastırıldı; patron grev yapanları işten çıkardı." } }),
   C("🙅 İşinde kal.", 0, -3, 0, "İş güvenceni korudun ama arkadaşların bozuldu.", { t: { dur: -1 } })]);
 X("ad_move", 24, 45, PL, "🧳 Yurtdışı İş Teklifi", ["Bir aracı yurtdışında iyi maaşlı bir iş teklif ediyor.", "Yol masrafı için borç gerekiyor.", "Riske girecek misin?"], [
-  C("🛫 Git.", -2, 4, .2, "Yeni ülkede çalışıp ailene para gönderiyorsun.", { t: { risk: 2 }, salx: 1.6, salFloor: 1.6, gamble: { p: .35, w: -.4, m: -14, res: "Aracı dolandırıcı çıktı; parayı ve umudu kaybettin." } }),
+  C("🛫 Git.", -2, 4, .2, "Yeni ülkede çalışıp ailene para gönderiyorsun.", { mig: "work", t: { risk: 2 }, salx: 1.6, salFloor: 1.6, gamble: { p: .35, w: -.4, m: -14, res: "Aracı dolandırıcı çıktı; parayı ve umudu kaybettin." } }),
   C("🏡 Kal.", 0, 2, 0, "Yakınlarına sahip çıkmayı seçtin.", { t: { aile: 1 } })]);
 X("ad_mortgage", 28, 52, MD, "🏦 Konut Kredisi", ["Evin kredisinin faizi artıyor; taksit cebini zorluyor.", "Kira ödemek de mantıksız ama ev satmak da zor.", "Ne yapacaksın?"], [
   C("🔁 Krediyi yeniden yapılandır.", 0, 2, -.1, "Taksit biraz düştü ama vade uzadı.", {}),
@@ -1533,7 +1604,7 @@ const KID_PREPS = [
   P("🎮 Umursama, oyununa devam et.", 0, 0, 2, 0, "Bir şey olmaz dedin.")
 ];
 // ===== MOTOR (1): başlangıç, kimlik, arayüz, olay seçimi, haberler =====
-const D = ms => (window.__fast ? 1 : ms);
+const D = ms => (window.__fast ? 1 : ms * (window.__turbo || 1));
 const FALLBACK = {
   id: "quiet", title: "🌤️ Sakin Bir Yıl",
   story: ["Bu yıl büyük bir fırtına yok; hayat yavaş ve sakin akıyor.", "Pencerenin önünde oturup geçmiş yılları düşünüyorsun.", "Bu sessizliği nasıl değerlendireceksin?"],
@@ -1561,7 +1632,7 @@ function spinAndStart() {
 
 function _startNewLife(opts) {
   opts = (opts && typeof opts.country === "string") ? opts : {};
-  renderToken++; locked = false;
+  renderToken++; locked = false; document.body.classList.remove("is-dead");
   let sel = opts.country ? countries.find(c => c.name === opts.country) : null;
   if (!sel) {
     const totalW = countries.reduce((s, c) => s + c.weight, 0);
@@ -1592,8 +1663,7 @@ function _startNewLife(opts) {
 
   document.getElementById("country-color-bar").style.background = `linear-gradient(90deg, ${sel.colors[0]}, ${sel.colors[1]})`;
   document.getElementById("avatar-container").style.borderColor = sel.colors[0];
-  document.getElementById("mini-globe-container").classList.remove("hidden");
-  document.getElementById("mini-globe").style.background = `linear-gradient(45deg, ${sel.colors[0]}, ${sel.colors[1]})`;
+  const mgc = document.getElementById("mini-globe-container"); if (mgc) mgc.classList.remove("hidden");
   document.getElementById("status-bars").classList.remove("hidden");
   document.getElementById("news-panel").classList.add("hidden");
   document.getElementById("story-header-bar").style.display = "flex";
@@ -1656,8 +1726,9 @@ function updateUI() {
   else gt = g.isMale ? "Yaşlı Adam" : "Yaşlı Kadın";
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
   set("char-name", g.country.flag + " " + g.name);
-  set("char-country", g.country.name);
-  set("char-probability", `Doğma ihtimali: %${g.country.weight}`);
+  const home = g.abroad ? g.abroad.from : g.country;
+  set("char-country", g.abroad ? `✈️ ${g.country.name} (gurbetçi)` : g.country.name);
+  set("char-probability", g.abroad ? `Doğum: ${home.flag} ${home.name} · ${g.abroad.since} yaşında göç etti` : `Doğma ihtimali: %${g.country.weight}`);
   set("char-class", `${cl.emoji} ${cl.label}`);
   set("stat-age", g.age + " Yaş");
   set("stat-year", g.year);
@@ -1805,6 +1876,7 @@ function renderYear() {
   const token = ++renderToken;
   const g = gameState;
   announceWorld();
+  if (g.report.length) g.log.push({ age: g.age, title: "📰 Geçen yılın haberleri", text: g.report.map(r => r.replace(/<[^>]+>/g, "")).join(" · "), news: true, place: g.country.flag + " " + g.city });
   g.flavor = [];
   const pool = [...FLAVOR];
   for (let i = 0; i < 2; i++) g.flavor.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0].replace("{c}", g.country.name));
@@ -1877,7 +1949,8 @@ function makeChoice(i) {
   if (!ch) return;
   locked = true;
   const g = gameState;
-  const before = { h: g.health, m: g.happiness, w: g.wealth, job: g.job, s: g.annualSalary };
+  const before = { h: g.health, m: g.happiness, w: g.wealth, job: g.job, s: g.annualSalary, c: g.country };
+  let failed = false;
   let res = ch.res || "";
   applyEffects(ch);
   if (ch.t) for (const k in ch.t) g.traits[k] = (g.traits[k] || 0) + ch.t[k];
@@ -1887,13 +1960,14 @@ function makeChoice(i) {
     const bad = ((gm.h || 0) + (gm.m || 0) < 0) || (gm.w || 0) < 0;
     const p = bad ? Math.min(0.85, gm.p * 1.4) : gm.p;
     if (Math.random() < p) {
-      applyEffects(gm);
+      applyEffects(gm); failed = bad;
       res = gm.res || res;
       if (gm.fx) { const r = gm.fx(); if (r) res += r; }
     }
   }
+  if (ch.mig && !failed) { res += migrate(ch.mig); before.w = g.wealth; before.s = g.annualSalary; }
   if (current.ev.after) current.ev.after(current.x);
-  g.log.push({ age: g.age, title: current.ev.title, text: ch.text });
+  g.log.push({ age: g.age, title: current.ev.title, text: ch.text, res: String(res).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(), place: g.country.flag + " " + g.city });
   updateUI();
 
   const dh = Math.round(g.health - before.h), dm = Math.round(g.happiness - before.m), dw = g.wealth - before.w;
@@ -1904,6 +1978,7 @@ function makeChoice(i) {
   if (dh) chips += chip(`❤️ ${sign(dh)}`, dh > 0 ? good : badc);
   if (dm) chips += chip(`😊 ${sign(dm)}`, dm > 0 ? good : badc);
   if (Math.abs(dw) >= 1) chips += chip(`💰 ${dw > 0 ? "+" : "-"}${fmt(Math.abs(dw))} ${cur}`, dw > 0 ? good : badc);
+  if (g.country !== before.c) chips += chip(`✈️ ${g.country.flag} ${g.country.name}`, amb);
   if (g.job !== before.job) chips += chip(`💼 ${g.job}`, amb);
   if (g.annualSalary !== before.s) chips += chip(`💵 Yıllık gelir: ${fmt(g.annualSalary)} ${cur}`, g.annualSalary > before.s ? good : badc);
   document.getElementById("choices-container").innerHTML = `
@@ -2081,6 +2156,7 @@ const ACH = [
   { id: "star", t: "🌟 Işıkların Çocuğu", d: "Ünlü bir ailede doğdun", f: g => g.cls === "famous" },
   { id: "lonely", t: "🕯️ Yalnız Kurt", d: "Sevdiklerinin hepsini kaybettin", f: g => g.age >= 60 && g.family.length > 0 && g.family.every(m => !alive(m) || m.rel === "Eski Eş") },
   { id: "globe", t: "🌍 Gezgin Ruh", d: "10 farklı ülkede doğdun", f: () => collection().length >= 10 },
+  { id: "expat", t: "✈️ Gurbetçi", d: "Başka bir ülkeye yerleştin", f: g => !!g.everAbroad },
   { id: "all", t: "🏆 Dünya Vatandaşı", d: "Tüm ülkelerde doğdun", f: () => collection().length >= countries.length }
 ];
 function checkAchievements() {
@@ -2124,7 +2200,7 @@ function lifeChart() {
 
 function triggerGameOver(reason) {
   const g = gameState;
-  g.active = false; g.endReason = reason;
+  g.active = false; g.endReason = reason; document.body.classList.add("is-dead"); if (typeof stopAuto === "function") stopAuto();
   renderToken++;
   document.getElementById("status-bars").classList.add("hidden");
   document.getElementById("news-panel").classList.add("hidden");
@@ -2143,7 +2219,7 @@ function triggerGameOver(reason) {
       <div class="inline-block bg-amber-500/10 border border-amber-500/30 rounded-2xl px-5 py-3 text-amber-300 font-bold">🏅 ${end.title}</div>
       <p class="text-slate-300 text-sm max-w-lg mx-auto leading-relaxed">${end.text}</p>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-left max-w-2xl mx-auto">
-        ${stat("Doğum", `${g.country.flag} ${g.city}`)}${stat("Sınıf", `${cl.emoji} ${cl.label.replace(" bir aile", "").replace(" ailesi", "")}`)}
+        ${stat("Doğum", g.abroad ? `${g.abroad.from.flag} ${g.abroad.from.name}` : `${g.country.flag} ${g.city}`)}${stat("Sınıf", `${cl.emoji} ${cl.label.replace(" bir aile", "").replace(" ailesi", "")}`)}
         ${stat("Vefat yaşı", g.age)}${stat("Meslek", g.job)}
         ${stat("En yüksek birikim", fmt(g.maxW) + " " + cur)}${stat("Son birikim", fmt(g.wealth) + " " + cur)}
         ${stat("Çocuk / Torun", kd + " / " + grandkids().length)}${stat("Atlatılan felaket", g.hits)}
@@ -2155,7 +2231,7 @@ function triggerGameOver(reason) {
         <ul class="mt-3 max-h-72 overflow-y-auto pr-2">${log}</ul>
       </details>
       ${shareBlockHtml()}
-      <button onclick="startNewLife()" class="mt-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-9 py-4 rounded-2xl shadow-xl transition text-base">Yeni Bir Bedende Tekrar Doğ</button>
+      <button onclick="newLifeClick()" class="mt-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-9 py-4 rounded-2xl shadow-xl transition text-base">Yeni Bir Bedende Tekrar Doğ</button>
     </div>`;
   document.getElementById("choices-container").innerHTML = "";
 }
@@ -2310,6 +2386,644 @@ async function copyChallenge() {
   try { await navigator.clipboard.writeText(url); setShareStatus("Link kopyalandı! Arkadaşına gönder: aynı doğumla başlayacak."); }
   catch (e) { const t = document.createElement("textarea"); t.value = url; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); setShareStatus("Link kopyalandı!"); } catch (_) { setShareStatus(url); } t.remove(); }
 }
+
+// ================= GERÇEKÇİ DÜNYA: kıta verisi + doku üretimi =================
+// Koordinatlar [boylam, enlem]. Boylam 180'i aşabilir (otomatik sarılır).
+const GEO = {
+  land: [
+    // Kuzey Amerika
+    [[-168,65.5],[-162,70],[-156,71],[-141,69.7],[-128,70],[-115,68.5],[-108,68],[-97,68],[-94,71.5],[-86,70],[-84,67],[-81,65],[-78,62.5],[-73,62],[-70,61],[-65,60],[-61,56],[-56,52],[-60,50],[-66,50],[-64,46],[-70,43],[-70,41.5],[-74,40],[-76,37],[-76,35],[-80,32],[-81,29],[-80,25.5],[-82,26],[-83,29],[-85,30],[-89,30],[-94,29.5],[-97,27],[-97.5,22],[-96,19],[-91,18.5],[-90,21.5],[-87,21.5],[-88,16],[-84,15.5],[-83,11],[-80,9],[-77.5,8.5],[-79.5,7.5],[-83,8],[-86,11],[-88,13],[-92,14.5],[-96,16],[-100,17],[-105,20],[-106,23],[-109,26],[-112.5,29],[-114.8,31],[-117,32.5],[-120.5,34.5],[-122.5,37.5],[-124,40.5],[-124,46],[-124.5,48.5],[-123,49],[-128,51],[-131,54.5],[-135,58],[-140,60],[-146,61],[-152,59],[-158,57],[-164,55],[-158,58.5],[-162,60],[-165,62],[-165,64]],
+    [[-114.7,32],[-112.5,28],[-110,23],[-109.5,23.5],[-111.5,27],[-114,30]],
+    [[-73,78],[-60,82],[-30,83.5],[-20,80],[-19,76],[-22,70],[-30,68],[-40,65],[-43,60],[-48,61],[-52,65],[-54,68],[-58,75.5]],
+    [[-80,73.5],[-72,71.5],[-62,67],[-65,63],[-72,64],[-78,65],[-90,70],[-85,73.5]],
+    [[-118,72],[-105,73],[-101,69.5],[-110,68.5],[-118,70]],
+    [[-90,76.5],[-85,82],[-62,82.5],[-75,78.5]],
+    [[-85,22],[-80,23.2],[-74.2,20.2],[-77.5,19.8],[-82,22.8]],
+    [[-74.4,18.5],[-69,19.5],[-68.5,18.3],[-72,18]],
+    // Güney Amerika
+    [[-77.5,8.5],[-72,12],[-68,10.5],[-62,10.5],[-60,8],[-52,5],[-50,0],[-48,-1],[-44,-2.5],[-38,-4],[-35,-6],[-35,-9],[-39,-14],[-39,-18],[-41,-22],[-45,-23.5],[-48,-26],[-49,-29],[-53,-34],[-57,-35],[-57,-38],[-62,-39],[-65,-41],[-64,-45],[-67,-46],[-66,-48],[-69,-51],[-68.5,-53],[-71,-54],[-74,-52],[-75,-47],[-73,-42],[-73.5,-37],[-71.5,-30],[-70.5,-18],[-75,-15],[-79,-8],[-81,-5],[-80,-2],[-80,1],[-78,2.5],[-77.5,6]],
+    // Avrasya
+    [[-5.5,36],[-9,37],[-9,43],[-2,43.5],[-1.5,46],[-4.5,48.5],[-1.5,49.5],[2,51],[4,52],[5,53.5],[8,54],[8.5,57],[10.5,57.7],[10.5,54.5],[14,54],[19,54.5],[21,56],[24,57],[24,59.5],[22.5,60],[21.5,61.5],[21.3,63],[24.5,64.8],[25.5,65.7],[27,68],[29,69.8],[31,70],[36,69.5],[41,67.5],[38,66],[41,66.8],[44,66],[44,68.5],[53,68.5],[60,69],[66,69.5],[68,72.5],[73,72.5],[73,68],[80,72.5],[87,75],[97,76],[105,77.5],[113,74],[125,73.5],[130,71],[140,72.5],[150,71.5],[160,69.5],[170,70],[180,68.5],[188,66],[183,65],[178,64.5],[179,62.5],[172,60.5],[164,59.8],[163,57],[162,55],[158,52.5],[156.5,51],[156,53],[155.5,57],[157,59.5],[160,61.5],[155,59],[150,59.5],[143,59.3],[137,54],[141,53],[140,48],[135,43],[131.5,42.5],[129.5,40.5],[128,38.5],[129,35.5],[126.5,34.5],[126,37.5],[125,39.5],[121.5,39],[121,40.5],[118,39],[118.5,37.5],[122.5,37],[120,35],[121.5,32],[122,30],[120.5,26.5],[117,23.5],[113.5,22],[110.5,21],[108.5,21.5],[106.5,19.5],[109,15],[109,12],[105,8.7],[104.8,10.5],[100.5,13.5],[99.5,10],[100.3,6.5],[103.5,1.5],[101.5,2.5],[98.5,8],[98,10],[98,16],[94.5,16],[94,19],[92,21.5],[90,22],[87,21],[86.5,20],[84.5,19],[80.5,15.5],[80,13],[79.8,10.5],[78,8.5],[77,8.2],[75,12],[73.5,17.5],[72.8,21],[70,21],[68.5,23.5],[66.5,25.3],[61.5,25.2],[57,25.7],[56.3,27],[52,27.8],[50,30],[48.5,29.8],[48,28.5],[50.2,26.5],[50.5,25.2],[51.5,24.2],[54,24.2],[56,26],[56.5,24.5],[59.5,22.5],[58.5,20.5],[55,17.5],[52,16],[44,12.7],[43,15],[42.5,17],[39,21.5],[37,25],[35,28],[34.9,29.5],[34.5,31.2],[35.5,33],[36,36.5],[32,36.2],[28,36.8],[27,38.5],[26.3,40.2],[24,40.8],[23,40.3],[22.5,38.5],[23.2,36.5],[21.5,36.8],[20,39.5],[19.5,41.8],[16,43.5],[13.5,45.2],[12.3,45.3],[12.5,44],[16,41.5],[18.5,40.2],[17,39],[16,38],[15.7,40],[12.5,41.5],[10.5,43],[8.5,44.3],[6,43],[3.5,43.3],[3,42],[0,40],[-0.5,38.5],[-2,36.8]],
+    // İskandinavya
+    [[5,58.5],[5,62],[8,63.5],[12,66],[15,68.5],[20,70],[25,71],[28.5,70.5],[28,69],[25,67.5],[22,65.6],[19,63.5],[17,61],[18.5,59.5],[16.5,57],[14.5,56],[13,55.5],[11,58],[8,58]],
+    [[-5.5,50],[-3,50.5],[1.5,51],[1.5,52.8],[0,53.5],[-1.5,55],[-2,57.5],[-3.5,58.5],[-5,58.5],[-6,56.5],[-5,55],[-3,54.5],[-3.5,53.3],[-4.5,52],[-5.2,51.7],[-3,51.3]],
+    [[-10,51.8],[-6,52],[-6,54],[-7.5,55.2],[-10,54]],
+    [[-24,65.5],[-22,66.3],[-16,66.5],[-13.5,65],[-18,63.4],[-22,63.8]],
+    [[52,71],[57,75],[68,77],[60,73],[55,70.5]],
+    [[142,46],[143.5,49],[143,54],[142,52]],
+    // Afrika
+    [[-5.5,35.8],[-2,35.2],[3,36.8],[10,37.2],[11,35],[10,33.5],[15,32.2],[20,32],[20,30.5],[24,32],[29,31],[32,31.3],[34,31.2],[32.5,30],[33,28],[35,24],[37,21],[38.5,18],[40,15.5],[43,12.7],[43.5,11.5],[51,12],[51,10.5],[48,5],[44,1],[41,-2],[39,-5],[39.5,-8],[40.5,-11],[40.5,-15],[35,-20],[35.5,-24],[33,-26],[32.5,-28.5],[30,-31.5],[27,-33.5],[22,-34.2],[18.5,-34.2],[18,-31],[15,-27],[14.5,-22],[12,-17.5],[13.5,-12],[13,-9],[12,-5],[9,-1],[9.5,3.5],[8,4.5],[5.5,5],[2,6.3],[-2,4.8],[-5,5.2],[-8,4.5],[-11,6.8],[-13.2,9],[-16.5,12.5],[-17.5,14.7],[-16.5,19.5],[-16,22],[-13,27.5],[-10,29.5],[-9.5,32],[-6.5,34]],
+    [[49.5,-12],[50.5,-15.5],[47.5,-25],[44,-24.5],[43.5,-21],[44.5,-16],[48,-13.5]],
+    // Okyanusya ve Asya adaları
+    [[114,-22],[114,-26],[115,-34],[118,-35],[123,-34],[129,-31.7],[134,-32.7],[138,-35.5],[140,-38],[146,-39],[150,-37.5],[153,-31],[153.5,-27],[150,-22.5],[146,-19],[145.5,-15],[142.5,-10.7],[141.5,-13],[141.5,-17.5],[139,-17.5],[136,-15],[137,-12],[132.5,-11.5],[130.5,-12.5],[127,-14],[125,-15],[122,-17],[121,-19.5],[116,-20.5]],
+    [[145,-41],[148,-41],[147.5,-43.5],[145.5,-43.2]],
+    [[172.5,-34.5],[175,-37],[178,-37.7],[175,-41.5],[173,-39.5]],
+    [[172.7,-40.5],[174,-41.7],[171,-45],[169,-46.6],[166.5,-46],[168,-44],[171,-42]],
+    [[130.9,34],[134,35.5],[136,36.5],[139.5,38],[141.7,40.5],[141.5,38],[140.8,35.7],[137,34.6],[135,33.7],[132.5,33.8]],
+    [[140,42],[141.5,45.3],[145.3,43.4],[143.5,42]],
+    [[129.8,33],[131.8,33.8],[131.5,31.2],[130.2,31.3]],
+    [[120.5,22],[121.8,25],[121.5,22]],
+    [[95.3,5.6],[98,4],[104,-1.5],[106,-5.8],[101,-3.5],[96,2]],
+    [[109,1.5],[111,2],[117,7],[119,5],[117.5,1],[116.5,-3.8],[114,-4],[110,-3],[109,-0.5]],
+    [[105.3,-6.8],[108.5,-6.5],[114.5,-7.8],[114,-8.7],[106,-7.5]],
+    [[119.5,-5],[120.5,-1],[122,0.8],[125,1.5],[123,-1],[121.5,-4.5],[121,-5]],
+    [[131,-1],[135,-3.5],[141,-2.7],[147.5,-6],[150.5,-10.5],[147,-10],[143.5,-8.5],[141,-9],[138,-8],[133,-4]],
+    [[120.5,18.5],[122.2,18.5],[122,14],[124,13],[120.6,14]],
+    [[122,7],[126.5,8.5],[126,6.5],[124,6.5]],
+    [[79.8,9.5],[81.8,7.5],[80.5,6],[80,7.5]],
+    // Antarktika
+    [[-180,-90],[-180,-72],[-150,-77],[-120,-74],[-90,-73],[-62,-65],[-58,-72],[-30,-78],[0,-70],[30,-69],[60,-67],[80,-68],[100,-66],[120,-67],[140,-66],[160,-70],[180,-71],[180,-90]]
+  ],
+  // Buz ve kar örtüsü (beyaz)
+  ice: [
+    [[-73,78],[-60,82],[-30,83.5],[-20,80],[-19,76],[-22,70],[-30,68],[-40,65],[-43,60],[-48,61],[-52,65],[-54,68],[-58,75.5]],
+    [[-180,-90],[-180,-72],[-150,-77],[-120,-74],[-90,-73],[-62,-65],[-58,-72],[-30,-78],[0,-70],[30,-69],[60,-67],[80,-68],[100,-66],[120,-67],[140,-66],[160,-70],[180,-71],[180,-90]]
+  ],
+  // Kıta içi sular
+  water: [
+    [[-95,59],[-94,61.5],[-90,64],[-86,66],[-82,64],[-80,63],[-77,62.5],[-78,58],[-79,55],[-82,52.5],[-85,55],[-89,56.5],[-92,57]],
+    [[28,41.5],[28.5,44],[29.5,45.5],[31,46.5],[33,46],[33.5,44.8],[36,45.2],[38,47],[41,45],[41.5,41.5],[36,41.5],[32,41.8]],
+    [[47,45],[49.5,46.5],[53,45],[51,41.5],[53.5,40],[54,37],[50.5,36.8],[49,38.5],[49.5,40.5]]
+  ],
+  // Bölgesel örtüler: [boylam, enlem, yarıçap-boylam, yarıçap-enlem, renk]
+  zones: [
+    [10, 24, 30, 8, "rgba(207,170,100,.85)"], [45, 25, 14, 9, "rgba(205,165,95,.85)"], [135, -25, 14, 8, "rgba(190,120,70,.85)"],
+    [100, 40, 22, 6, "rgba(165,140,95,.75)"], [90, 33, 10, 4, "rgba(150,125,95,.85)"], [67, 36, 10, 6, "rgba(170,145,100,.75)"],
+    [22, -23, 8, 5, "rgba(200,160,95,.75)"], [-110, 33, 8, 5, "rgba(200,160,100,.6)"], [-70, -22, 5, 12, "rgba(160,135,100,.7)"],
+    [-65, -4, 14, 9, "rgba(18,85,40,.9)"], [22, -2, 12, 7, "rgba(18,85,40,.9)"], [104, 14, 10, 8, "rgba(28,100,44,.85)"],
+    [112, -1, 9, 5, "rgba(18,85,40,.9)"], [82, 22, 7, 7, "rgba(60,110,45,.8)"], [117, 30, 7, 6, "rgba(55,110,50,.8)"],
+    [-85, 38, 9, 6, "rgba(50,105,50,.75)"], [10, 48, 14, 5, "rgba(60,110,55,.75)"], [-120, 45, 5, 6, "rgba(40,90,50,.75)"],
+    [-100, 62, 30, 6, "rgba(105,120,100,.8)"], [100, 63, 50, 5, "rgba(100,118,98,.8)"], [-50, -10, 7, 9, "rgba(70,115,55,.8)"],
+    [-65, -35, 7, 7, "rgba(95,135,70,.75)"], [30, 7, 12, 5, "rgba(120,140,70,.7)"], [20, -15, 12, 5, "rgba(110,135,65,.7)"]
+  ],
+  // [boylam, enlem, parlaklık]
+  cities: [[-0.1,51.5,1],[2.3,48.9,1],[13.4,52.5,.9],[-3.7,40.4,.8],[12.5,41.9,.8],[37.6,55.8,1],[29,41,1],[31.2,30,1],[3.4,6.5,1],[28,-26,.8],[36.8,-1.3,.6],[15.3,-4.3,.6],[38.7,9,.5],[51.4,35.7,.9],[67,24.9,1],[77.2,28.6,1],[72.9,19,1],[88.4,22.6,.9],[90.4,23.8,1],[100.5,13.7,.9],[106.8,-6.2,1],[121,14.6,.9],[106.7,10.8,.8],[105.8,21,.7],[113.3,23.1,1],[121.5,31.2,1],[116.4,39.9,1],[127,37.5,1],[139.7,35.7,1],[135.5,34.7,.9],[151.2,-33.9,.8],[145,-37.8,.6],[-74,40.7,1],[-87.6,41.9,.9],[-118.2,34,1],[-95.4,29.8,.8],[-79.4,43.7,.8],[-99.1,19.4,1],[-74,4.7,.8],[-77,-12,.7],[-46.6,-23.5,1],[-43.2,-22.9,.9],[-58.4,-34.6,.9],[-70.7,-33.4,.7],[46.7,24.7,.8],[44.4,33.3,.8],[3,36.7,.7],[-7.6,33.6,.7],[-0.2,5.6,.6],[13.2,-8.8,.5],[39.3,-6.8,.5],[30.5,50.4,.7],[21,52.2,.7],[18,59.3,.6],[-123.1,49.3,.6],[-80.2,25.8,.7],[-105,39.7,.5],[74.3,31.5,1],[80.3,13.1,.9],[77.6,13,.9],[104,30.7,.9],[114.3,30.6,.9],[103.8,1.35,.9],[101.7,3.1,.8],[8.6,50.1,.8],[4.9,52.4,.8],[10,53.5,.6],[-6.3,53.3,.5],[23.7,38,.7],[44.8,41.7,.4],[69.2,41.3,.7],[126.9,37.6,.7],[100.6,13.8,.6]],
+  // Gece ışığı saçılımı kutuları [boylam0, boylam1, enlem0, enlem1, adet]
+  glow: [[-5,20,43,54,260],[-90,-72,32,43,220],[-122,-117,32,38,50],[72,88,10,28,320],[108,122,22,38,320],[127,141,33,38,150],[-48,-40,-24,-20,70],[3,8,5,8,50],[28,34,26,31,60],[100,108,10,16,90],[104,112,-8,-6,110],[-100,-98,18,21,50],[26,32,38,42,50],[36,42,53,57,60]]
+};
+
+// ---- Doku üretimi (bir kez) ----
+let EARTH_TEX = null;
+function buildEarthTexture() {
+  if (EARTH_TEX) return EARTH_TEX;
+  const W = 1024, H = 512, rnd = seededRandom("earth-v1");
+  const px = lon => ((lon + 180) / 360) * W, py = lat => ((90 - lat) / 180) * H;
+  const mk = () => { const c = document.createElement("canvas"); c.width = W; c.height = H; return c; };
+  const trace = (ctx, poly, dx) => { ctx.beginPath(); poly.forEach((p, i) => { const x = px(p[0]) + dx, y = py(p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.closePath(); };
+  const eachWrap = (ctx, polys, fn) => polys.forEach(poly => [-W, 0, W].forEach(dx => { trace(ctx, poly, dx); fn(ctx); }));
+
+  // kara maskesi
+  const mask = mk(), mx = mask.getContext("2d");
+  mx.fillStyle = "#fff"; eachWrap(mx, GEO.land, c => c.fill());
+  mx.globalCompositeOperation = "destination-out"; eachWrap(mx, GEO.water, c => c.fill());
+  mx.globalCompositeOperation = "source-over";
+
+  // okyanus
+  const oc = mk(), o = oc.getContext("2d");
+  const og = o.createLinearGradient(0, 0, 0, H);
+  og.addColorStop(0, "#0a2a4a"); og.addColorStop(.3, "#0b3a68"); og.addColorStop(.5, "#0a3f73"); og.addColorStop(.7, "#0b3a68"); og.addColorStop(1, "#0a2a4a");
+  o.fillStyle = og; o.fillRect(0, 0, W, H);
+  [[0, 1], [H, -1]].forEach(([y0, d]) => { const cg = o.createLinearGradient(0, y0, 0, y0 + d * H * 0.075); cg.addColorStop(0, "rgba(236,244,250,.96)"); cg.addColorStop(.55, "rgba(190,215,232,.55)"); cg.addColorStop(1, "rgba(190,215,232,0)"); o.fillStyle = cg; o.fillRect(0, Math.min(y0, y0 + d * H * 0.075), W, H * 0.075); });
+  for (let i = 0; i < 1400; i++) { o.fillStyle = `rgba(${rnd() < .5 ? "20,90,150" : "5,30,70"},${(.04 + rnd() * .06).toFixed(3)})`; const r = 4 + rnd() * 14; o.beginPath(); o.ellipse(rnd() * W, rnd() * H, r * 2, r, 0, 0, 7); o.fill(); }
+  [[0, 1], [H, -1]].forEach(([y0, d]) => { const cg = o.createLinearGradient(0, y0, 0, y0 + d * H * 0.06); cg.addColorStop(0, "rgba(238,245,251,.97)"); cg.addColorStop(.6, "rgba(200,222,238,.5)"); cg.addColorStop(1, "rgba(200,222,238,0)"); o.fillStyle = cg; o.fillRect(0, Math.min(y0, y0 + d * H * 0.06), W, H * 0.06); });
+  // sığ sular (kıyı parıltısı)
+  o.lineJoin = "round"; o.strokeStyle = "rgba(70,190,200,.20)"; o.lineWidth = 9; eachWrap(o, GEO.land, c => c.stroke());
+  o.strokeStyle = "rgba(110,215,215,.28)"; o.lineWidth = 4; eachWrap(o, GEO.land, c => c.stroke());
+
+  // kara rengi: enleme göre + bölgesel örtüler + gürültü
+  const lc = mk(), l = lc.getContext("2d");
+  const lg = l.createLinearGradient(0, 0, 0, H);
+  const stops = [[0, "#e9eff2"], [.11, "#c9d2d0"], [.16, "#72806a"], [.22, "#385c38"], [.30, "#466f3c"], [.36, "#4d7a40"], [.42, "#6f8a48"], [.5, "#2f6a38"], [.58, "#5f8545"], [.66, "#b79d62"], [.74, "#8ea05a"], [.84, "#4a7640"], [.92, "#8b9a88"], [1, "#eef2f4"]];
+  stops.forEach(s => lg.addColorStop(s[0], s[1]));
+  l.fillStyle = lg; l.fillRect(0, 0, W, H);
+  GEO.zones.forEach(z => [-W, 0, W].forEach(dx => {
+    const cx = px(z[0]) + dx, cy = py(z[1]), rx = z[2] / 360 * W, ry = z[3] / 180 * H;
+    const g = l.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+    g.addColorStop(0, z[4]); g.addColorStop(1, "rgba(0,0,0,0)");
+    l.save(); l.translate(cx, cy); l.scale(rx / Math.max(rx, ry), ry / Math.max(rx, ry)); l.translate(-cx, -cy);
+    l.fillStyle = g; l.beginPath(); l.arc(cx, cy, Math.max(rx, ry), 0, 7); l.fill(); l.restore();
+  }));
+  // dağ ve doku lekeleri
+  for (let i = 0; i < 5200; i++) {
+    const t = rnd(); l.fillStyle = t < .45 ? `rgba(0,0,0,${(.05 + rnd() * .09).toFixed(3)})` : t < .8 ? `rgba(255,255,255,${(.03 + rnd() * .06).toFixed(3)})` : `rgba(120,95,60,${(.05 + rnd() * .08).toFixed(3)})`;
+    const r = 1 + rnd() * 4.5; l.beginPath(); l.ellipse(rnd() * W, rnd() * H, r * 1.8, r, rnd() * 3, 0, 7); l.fill();
+  }
+  [[-114, 40, 6, 22], [-72, -20, 4, 34], [86, 30, 24, 5], [10, 46.5, 7, 3], [60, 55, 3, 12], [-5, 32, 7, 2], [38, 8, 4, 8]].forEach(m => { // Rocky, And, Himalaya, Alp, Ural, Atlas, Habeş
+    for (let k = 0; k < 90; k++) { l.fillStyle = `rgba(${rnd() < .5 ? "110,90,70" : "235,235,235"},${(.1 + rnd() * .16).toFixed(2)})`; l.beginPath(); l.arc(px(m[0] + (rnd() - .5) * m[2] * 2), py(m[1] + (rnd() - .5) * m[3] * 2), .8 + rnd() * 2.2, 0, 7); l.fill(); }
+  });
+  l.fillStyle = "rgba(246,250,252,.97)"; eachWrap(l, GEO.ice, c => c.fill());
+  l.globalCompositeOperation = "destination-in"; l.drawImage(mask, 0, 0); l.globalCompositeOperation = "source-over";
+  o.drawImage(lc, 0, 0);
+  // kıyı çizgisi (hafif koyu)
+  o.strokeStyle = "rgba(10,25,20,.35)"; o.lineWidth = 1; eachWrap(o, GEO.land, c => c.stroke());
+  const color = new Uint32Array(o.getImageData(0, 0, W, H).data.buffer.slice(0));
+  const mdat = mx.getImageData(0, 0, W, H).data, land = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) land[i] = mdat[i * 4 + 3] > 127 ? 1 : 0;
+
+  // şehir ışıkları
+  const nc = mk(), n = nc.getContext("2d");
+  n.globalCompositeOperation = "lighter";
+  const dot = (lon, lat, a, r) => { const x = px(lon), y = py(lat), g = n.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,255,255,${a})`); g.addColorStop(.35, `rgba(255,255,255,${a * .45})`); g.addColorStop(1, "rgba(255,255,255,0)"); n.fillStyle = g; n.beginPath(); n.arc(x, y, r, 0, 7); n.fill(); };
+  GEO.cities.forEach(c => dot(c[0], c[1], .95 * c[2], 5 + 4 * c[2]));
+  GEO.glow.forEach(b => { for (let i = 0; i < b[4]; i++) { const lon = b[0] + rnd() * (b[1] - b[0]), lat = b[2] + rnd() * (b[3] - b[2]); if (land[Math.floor(py(lat)) * W + Math.floor(px(lon))]) dot(lon, lat, .25 + rnd() * .45, 1.4 + rnd() * 2.2); } });
+  const nd = n.getImageData(0, 0, W, H).data, lights = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) lights[i] = land[i] ? Math.min(255, Math.round(nd[i * 4 + 3] * 1.1)) : 0;
+
+  // bulutlar (periyodik fBm)
+  const CW = 512, CH = 256, cloud = new Uint8Array(CW * CH);
+  const grid = (gw, gh) => { const a = new Float32Array(gw * gh); for (let i = 0; i < a.length; i++) a[i] = rnd(); return a; };
+  const octs = [[8, 4, 1], [16, 8, .55], [32, 16, .3], [64, 32, .16]].map(o2 => ({ gw: o2[0], gh: o2[1], amp: o2[2], g: grid(o2[0], o2[1] + 1) }));
+  const smooth = t => t * t * (3 - 2 * t);
+  for (let y = 0; y < CH; y++) for (let x = 0; x < CW; x++) {
+    let v = 0, tot = 0;
+    octs.forEach(o2 => {
+      const fx = x / CW * o2.gw, fy = y / CH * o2.gh, x0 = Math.floor(fx), y0 = Math.floor(fy), tx = smooth(fx - x0), ty = smooth(fy - y0);
+      const xa = x0 % o2.gw, xb = (x0 + 1) % o2.gw, g = o2.g, r0 = y0 * o2.gw, r1 = (y0 + 1) * o2.gw;
+      const top = g[r0 + xa] * (1 - tx) + g[r0 + xb] * tx, bot = g[r1 + xa] * (1 - tx) + g[r1 + xb] * tx;
+      v += (top * (1 - ty) + bot * ty) * o2.amp; tot += o2.amp;
+    });
+    v /= tot; const lat = Math.abs(.5 - y / CH) * 2; // ekvatorda ve orta enlemlerde daha bulutlu
+    cloud[y * CW + x] = Math.max(0, Math.min(255, Math.round((v - (.5 + lat * .06)) * 520)));
+  }
+  EARTH_TEX = { W, H, color, land, lights, cloud, CW, CH };
+  return EARTH_TEX;
+}
+
+// ================= GERÇEKÇİ DÜNYA: çizim motoru =================
+// Piksel başına ortografik küre: kıtalar, bulutlar, gece ışıkları, atmosfer, güneş parıltısı.
+function makeGlobe(canvas, opt) {
+  opt = opt || {};
+  const T = buildEarthTexture(), TW = T.W, TH = T.H;
+  const css = opt.size || canvas.clientWidth || 240;
+  const N = Math.max(64, Math.min(opt.max || 340, Math.round(css * Math.min(window.devicePixelRatio || 1, 2))));
+  canvas.width = N; canvas.height = N;
+  const ctx = canvas.getContext("2d");
+  const off = document.createElement("canvas"); off.width = N; off.height = N;
+  const octx = off.getContext("2d"), img = octx.createImageData(N, N), out = new Uint32Array(img.data.buffer);
+  const R = N * 0.40, cx = N / 2, cy = N / 2;
+
+  // Güneş yönü (görüntü uzayı): sol-üst önden; gece sınırı sağda
+  let sx = -0.72, sy = 0.28, sz = 0.64; { const l = Math.hypot(sx, sy, sz); sx /= l; sy /= l; sz /= l; }
+  let hx = sx, hy = sy, hz = sz + 1; { const l = Math.hypot(hx, hy, hz); hx /= l; hy /= l; hz /= l; }
+
+  const st = { lon: opt.lon != null ? opt.lon : 20, lat: opt.lat != null ? opt.lat : 18, speed: opt.speed != null ? opt.speed : 6, anim: null, marker: null, t: 0, run: false, cloud: 0 };
+  let pre = null, preLat = null;
+  function precompute(lat) {
+    const a = lat * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a), n = N * N;
+    const idx = new Int32Array(n), ty = new Int32Array(n), lonOff = new Float32Array(n), L = new Float32Array(n), rim = new Float32Array(n), spec = new Float32Array(n), cov = new Float32Array(n);
+    let c = 0;
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const x = (i + .5 - cx) / R, y = -(j + .5 - cy) / R, r2 = x * x + y * y;
+      if (r2 > 1.012) continue;
+      const rr = Math.sqrt(r2), zc = Math.sqrt(Math.max(0, 1 - Math.min(r2, 1)));
+      const nx = x / Math.max(rr, 1) * (rr > 1 ? 1 : 1), ny = y / Math.max(rr, 1), z = rr > 1 ? 0 : zc, xx = rr > 1 ? nx : x, yy = rr > 1 ? ny : y;
+      const yE = yy * ca + z * sa, zE = -yy * sa + z * ca;
+      idx[c] = j * N + i;
+      ty[c] = Math.max(0, Math.min(TH - 1, Math.floor((0.5 - Math.asin(Math.max(-1, Math.min(1, yE))) / Math.PI) * TH)));
+      lonOff[c] = (Math.atan2(xx, zE) / (2 * Math.PI)) * TW + TW / 2;
+      const d = xx * sx + yy * sy + z * sz; L[c] = d;
+      rim[c] = Math.pow(1 - z, 2.6);
+      spec[c] = Math.pow(Math.max(0, xx * hx + yy * hy + z * hz), 220);
+      cov[c] = Math.max(0, Math.min(1, (1.0 - rr) * R * 0.9 + 0.5));
+      c++;
+    }
+    pre = { c, idx, ty, lonOff, L, rim, spec, cov }; preLat = lat;
+  }
+
+  const sm = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+  function frame() {
+    if (!pre || Math.abs(preLat - st.lat) > 0.8) precompute(st.lat);
+    const { c, idx, ty, lonOff, L, rim, spec, cov } = pre;
+    const col = T.color, land = T.land, lights = T.lights, cloud = T.cloud, CW = T.CW;
+    const shift = (st.lon / 360) * TW, cshift = ((st.lon * 0.93 + st.cloud) / 360) * TW;
+    out.fill(0);
+    for (let k = 0; k < c; k++) {
+      let tx = Math.floor(lonOff[k] + shift) % TW; if (tx < 0) tx += TW;
+      const ti = ty[k] * TW + tx, v = col[ti];
+      let r = v & 255, g = (v >> 8) & 255, b = (v >> 16) & 255;
+      const l = L[k], day = sm(-0.10, 0.34, l), lit = 0.30 + 0.95 * Math.max(0, l);
+      let cx2 = Math.floor(lonOff[k] + cshift) % TW; if (cx2 < 0) cx2 += TW;
+      const cl = cloud[(ty[k] >> 1) * CW + (cx2 >> 1)] / 255 * 0.78;
+      let dr = r * lit, dg = g * lit, db = b * lit;
+      if (!land[ti]) { const s = spec[k] * 0.55; dr += 255 * s; dg += 240 * s; db += 220 * s; }
+      dr += (255 - dr) * cl * Math.min(1, lit); dg += (255 - dg) * cl * Math.min(1, lit); db += (255 - db) * cl * Math.min(1, lit);
+      const li = lights[ti] / 255, nl = (1 - day);
+      let nr = r * 0.05 + li * 255 * 0.95, ng = g * 0.06 + li * 190 * 0.9, nb = b * 0.10 + li * 110 * 0.8;
+      nr += cl * 14; ng += cl * 18; nb += cl * 26;
+      let fr = nr + (dr - nr) * day, fg = ng + (dg - ng) * day, fb = nb + (db - nb) * day;
+      const atm = rim[k] * (0.30 + 0.9 * Math.max(0, Math.min(1, l + 0.45)));
+      fr += 70 * atm * 1.3; fg += 140 * atm * 1.3; fb += 255 * atm * 1.3;
+      fr = fr > 255 ? 255 : fr; fg = fg > 255 ? 255 : fg; fb = fb > 255 ? 255 : fb;
+      const a = Math.round(255 * cov[k]);
+      out[idx[k]] = (a << 24) | ((fb | 0) << 16) | ((fg | 0) << 8) | (fr | 0);
+    }
+    octx.putImageData(img, 0, 0);
+    ctx.clearRect(0, 0, N, N);
+    // dış parıltı (atmosfer)
+    const g1 = ctx.createRadialGradient(cx, cy, R * 0.96, cx, cy, R * 1.22);
+    g1.addColorStop(0, "rgba(90,160,255,.55)"); g1.addColorStop(.3, "rgba(60,120,230,.20)"); g1.addColorStop(1, "rgba(30,80,200,0)");
+    ctx.fillStyle = g1; ctx.beginPath(); ctx.arc(cx, cy, R * 1.22, 0, 7); ctx.fill();
+    ctx.drawImage(off, 0, 0);
+    drawMarker();
+  }
+  function project(lon, lat) {
+    const a = st.lat * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a), la = lat * Math.PI / 180, lv = (lon - st.lon) * Math.PI / 180;
+    const ex = Math.cos(la) * Math.sin(lv), ey = Math.sin(la), ez = Math.cos(la) * Math.cos(lv);
+    return { x: ex, y: ey * ca - ez * sa, z: ey * sa + ez * ca };
+  }
+  function drawMarker() {
+    const m = st.marker; if (!m) return;
+    const p = project(m.lon, m.lat); if (p.z <= 0.02) return;
+    const x = cx + p.x * R, y = cy - p.y * R, t = (performance.now() % 1600) / 1600;
+    ctx.save();
+    ctx.strokeStyle = `rgba(251,191,36,${(1 - t).toFixed(2)})`; ctx.lineWidth = Math.max(1, N / 170);
+    ctx.beginPath(); ctx.arc(x, y, N * 0.012 + t * N * 0.075, 0, 7); ctx.stroke();
+    ctx.shadowColor = "#fbbf24"; ctx.shadowBlur = N * 0.04; ctx.fillStyle = "#fde68a";
+    ctx.beginPath(); ctx.arc(x, y, Math.max(2, N * 0.013), 0, 7); ctx.fill();
+    ctx.restore();
+  }
+
+  let last = 0, raf = 0;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  function loop(ts) {
+    if (!st.run) return;
+    raf = requestAnimationFrame(loop);
+    if (!canvas.isConnected || document.hidden || canvas.offsetParent === null && !opt.alwaysOn) { last = ts; return; }
+    const dt = Math.min(0.05, (ts - (last || ts)) / 1000); last = ts;
+    if (st.anim) {
+      const a = st.anim; a.t += dt; const k = Math.min(1, a.t / a.dur), e = ease(k);
+      st.lon = a.lon0 + (a.lon1 - a.lon0) * e; st.lat = a.lat0 + (a.lat1 - a.lat0) * e;
+      if (k >= 1) { const done = a.done; st.anim = null; st.lon = ((st.lon % 360) + 540) % 360 - 180; if (done) done(); }
+    } else st.lon = (st.lon + st.speed * dt + 540) % 360 - 180;
+    st.cloud += dt * 1.6;
+    frame();
+  }
+  const api = {
+    start() { if (st.run) return; st.run = true; last = 0; raf = requestAnimationFrame(loop); },
+    stop() { st.run = false; cancelAnimationFrame(raf); },
+    draw() { frame(); },
+    setMarker(m) { st.marker = m; },
+    setSpeed(s) { st.speed = s; },
+    state: st,
+    // Hızla dönüp hedef koordinata yerleşir
+    spinTo(lon, lat, o) {
+      o = o || {};
+      return new Promise(res => {
+        let d = ((lon - st.lon) % 360 + 360) % 360; const turns = o.turns != null ? o.turns : 2;
+        st.anim = { t: 0, dur: o.dur || 2.2, lon0: st.lon, lon1: st.lon + d + 360 * turns, lat0: st.lat, lat1: Math.max(-35, Math.min(45, lat * 0.7)), done: res };
+      });
+    },
+    // Hedefsiz hızlı dönüş (yeni hayat geçişi)
+    whirl(dur, turns) {
+      return new Promise(res => { st.anim = { t: 0, dur: dur || 1.4, lon0: st.lon, lon1: st.lon + 360 * (turns || 2), lat0: st.lat, lat1: st.lat, done: res }; });
+    }
+  };
+  frame();
+  return api;
+}
+
+// ---- Ülke konumları (yaklaşık merkez) ----
+const COUNTRY_POS = {
+  "Hindistan": [78, 22], "Çin": [104, 34], "Amerika Birleşik Devletleri": [-98, 39], "Endonezya": [113, -2], "Pakistan": [70, 30], "Nijerya": [8, 9],
+  "Brezilya": [-52, -11], "Bangladeş": [90, 23.7], "Rusya": [60, 58], "Meksika": [-102, 23], "Etiyopya": [40, 9], "Japonya": [138, 36],
+  "Filipinler": [122, 12], "Mısır": [30, 27], "Demokratik Kongo": [23, -3], "Vietnam": [106, 16], "Türkiye": [35, 39], "İran": [53, 32],
+  "Almanya": [10, 51], "Birleşik Krallık": [-2, 54], "Fransa": [2.5, 46.5], "Güney Kore": [127.8, 36.5]
+};
+const posOf = c => COUNTRY_POS[c.name] || [0, 20];
+
+// ---- Ana ekran küresi, mini küre ve yeni hayat geçişi ----
+let HERO_GLOBE = null, MINI_GLOBE = null;
+function ensureHeroGlobe() {
+  const cv = document.getElementById("hero-globe");
+  if (!cv) { HERO_GLOBE = null; return null; }
+  if (HERO_GLOBE && HERO_GLOBE.canvas === cv) return HERO_GLOBE;
+  HERO_GLOBE = makeGlobe(cv, { size: 260, max: 380, speed: 7 }); HERO_GLOBE.canvas = cv; HERO_GLOBE.start();
+  return HERO_GLOBE;
+}
+function setMiniGlobe(country) {
+  const cv = document.getElementById("mini-globe-canvas"), box = document.getElementById("mini-globe-container");
+  if (!cv || !box) return;
+  box.classList.remove("hidden");
+  const [lon, lat] = posOf(country);
+  if (!MINI_GLOBE) { MINI_GLOBE = makeGlobe(cv, { size: 56, max: 160, speed: 0, alwaysOn: true, lon, lat: lat * 0.6 }); MINI_GLOBE.start(); }
+  MINI_GLOBE.setMarker({ lon, lat });
+  MINI_GLOBE.state.lat = Math.max(-35, Math.min(45, lat * 0.7)); MINI_GLOBE.state.lon = lon; MINI_GLOBE.draw();
+}
+
+let transitionBusy = false;
+async function cinematicNewLife(opts) {
+  if (transitionBusy) return; transitionBusy = true;
+  window.__auto = false; if (typeof syncAutoUI === "function") syncAutoUI();
+  const ov = document.getElementById("globe-overlay"), cv = document.getElementById("overlay-globe"), cap = document.getElementById("overlay-caption");
+  try {
+    renderToken++;
+    if (HERO_GLOBE) HERO_GLOBE.stop();
+    ov.classList.add("show"); cap.innerHTML = "Dünya dönüyor…<br><span>Bu sefer nerede doğacaksın?</span>";
+    const gl = makeGlobe(cv, { size: Math.min(380, Math.floor(Math.min(innerWidth, innerHeight) * 0.62)), max: 460, speed: 0, alwaysOn: true });
+    gl.start();
+    const D2 = s => (window.__fast ? 0.01 : s);
+    await gl.whirl(D2(1.5), 2);
+    startNewLife(opts);
+    const c = gameState.country, [lon, lat] = posOf(c);
+    cap.innerHTML = "Hayat seçildi…";
+    await gl.spinTo(lon, lat, { dur: D2(1.9), turns: 1 });
+    gl.setMarker({ lon, lat });
+    cap.innerHTML = `<span class="flag">${c.flag}</span> ${c.name}<br><span>${gameState.city}</span>`;
+    await new Promise(r => setTimeout(r, window.__fast ? 5 : 1300));
+    gl.stop();
+  } finally {
+    ov.classList.remove("show"); transitionBusy = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+// Başlık ve ana ekran düğmeleri
+function newLifeClick() {
+  if (transitionBusy) return;
+  if (gameState && gameState.active && gameState.age > 0) {
+    showConfirm("Yeni bir hayata geç?", "Şu anki hayatın burada bırakılacak. Başka bir ülkede, başka bir ailede doğacaksın.", "🌍 Dünyayı Döndür", () => cinematicNewLife());
+  } else cinematicNewLife();
+}
+function spinAndStart() { cinematicNewLife(); }
+
+// startNewLife sarmalayıcısına mini küreyi bağla
+(function wrapStart() {
+  const base = startNewLife;
+  startNewLife = function (opts) {
+    base(opts);
+    try { setMiniGlobe(gameState.country); } catch (e) {}
+    try { const h = document.getElementById("control-bar"); if (h) h.classList.remove("hidden"); } catch (e) {}
+  };
+})();
+document.addEventListener("DOMContentLoaded", () => { try { ensureHeroGlobe(); } catch (e) { console.error(e); } });
+
+// ================= Onay penceresi, Hayat Günlüğü, Otomatik Oynat, Göç =================
+let _confirmCb = null;
+function showConfirm(title, msg, okLabel, cb) {
+  document.getElementById("confirm-title").innerText = title;
+  document.getElementById("confirm-msg").innerText = msg;
+  document.getElementById("confirm-ok").innerText = okLabel || "Tamam";
+  _confirmCb = cb; showModal("confirm-modal");
+}
+function closeConfirm() { hideModal("confirm-modal"); _confirmCb = null; }
+function confirmOk() { const cb = _confirmCb; closeConfirm(); if (cb) cb(); }
+
+// ----- Hayat Günlüğü -----
+let logAsc = false;
+const escH = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function openLog() { if (!gameState || !gameState.log) return; renderLog(); showModal("log-modal"); }
+function closeLog() { hideModal("log-modal"); }
+function toggleLogOrder() {
+  logAsc = !logAsc; document.getElementById("log-order").innerText = logAsc ? "En eski ↓" : "En yeni ↑"; renderLog();
+}
+function renderLog() {
+  const g = gameState; if (!g) return;
+  const q = (document.getElementById("log-search").value || "").toLocaleLowerCase("tr").trim();
+  const born = g.year - g.age;
+  let items = g.log.filter(l => !q || (l.title + " " + (l.text || "") + " " + (l.res || "") + " " + (l.place || "")).toLocaleLowerCase("tr").includes(q));
+  if (!logAsc) items = items.slice().reverse();
+  document.getElementById("log-sub").innerText = `${g.name} · ${g.age} yaş · ${g.log.length} kayıt`;
+  if (!items.length) { document.getElementById("log-list").innerHTML = `<p class="text-sm text-slate-400 text-center py-8">${q ? "Aramana uyan kayıt yok." : "Henüz kayıt yok. Birkaç yıl yaşa, hikayen burada birikecek."}</p>`; return; }
+  document.getElementById("log-list").innerHTML = items.map(l => `
+    <div class="log-item">
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-400">
+        <span class="font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-md px-1.5 py-0.5">${l.age} yaş</span><span>${born + l.age}</span>${l.place ? `<span>· ${escH(l.place)}</span>` : ""}
+      </div>
+      <div class="serif font-bold ${l.news ? "text-red-300" : "text-slate-100"} mt-1">${escH(l.title)}</div>
+      ${l.news ? `<div class="text-sm text-slate-300 mt-1 leading-relaxed">${escH(l.text)}</div>` : `
+      <div class="text-sm text-slate-300 mt-1"><span class="text-slate-500">Seçimin:</span> ${escH(l.text)}</div>
+      ${l.res ? `<div class="text-sm text-slate-400 mt-1 leading-relaxed"><span class="text-slate-500">Sonuç:</span> ${escH(l.res)}</div>` : ""}`}
+    </div>`).join("");
+}
+
+// ----- Otomatik Oynat -----
+window.__auto = false; window.__turbo = 1;
+let autoSpeed = 2, autoTimer = null;
+function anyModalOpen() { return ["log-modal", "feedback-modal", "confirm-modal", "notification-modal"].some(id => { const el = document.getElementById(id); return el && el.style.display === "flex"; }); }
+function syncAutoUI() {
+  const on = !!window.__auto, btn = document.getElementById("auto-btn"); if (!btn) return;
+  const live = !!(gameState && gameState.active);
+  btn.classList.toggle("on", on);
+  btn.firstChild.textContent = on ? "⏸ " : "▶ ";
+  document.getElementById("auto-label").innerText = on ? "Durdur" : "Otomatik";
+  btn.disabled = !live && !on; btn.style.opacity = btn.disabled ? ".45" : "1";
+  const bar = document.getElementById("auto-bar"); if (bar) bar.classList.toggle("hidden", !on);
+  document.querySelectorAll(".spd[data-spd]").forEach(b => b.classList.toggle("on", +b.dataset.spd === autoSpeed));
+}
+function setAutoSpeed(s) { autoSpeed = s; if (window.__auto) window.__turbo = 0.5 / s; syncAutoUI(); }
+function stopAuto() { window.__auto = false; window.__turbo = 1; clearTimeout(autoTimer); syncAutoUI(); }
+function toggleAuto() {
+  if (window.__auto) { stopAuto(); return; }
+  if (!gameState || !gameState.active) return;
+  window.__auto = true; window.__turbo = 0.5 / autoSpeed; syncAutoUI(); autoLoop();
+}
+function autoLoop() {
+  clearTimeout(autoTimer);
+  if (!window.__auto) return;
+  const g = gameState;
+  if (!g || !g.active) { stopAuto(); return; }
+  autoTimer = setTimeout(autoLoop, 90);
+  if (anyModalOpen() || transitionBusy) return;
+  const ready = (el, hold) => { if (!el._seen) el._seen = Date.now(); return Date.now() - el._seen >= hold; };
+  const begin = document.querySelector('#story-content button[onclick="beginLife()"]');
+  if (begin) { if (ready(begin, 900 / autoSpeed)) begin.click(); return; }
+  const choices = [...document.querySelectorAll('#choices-container button[onclick^="makeChoice"]')];
+  if (choices.length && !locked) { const el = choices[0]; if (ready(el, 1100 / autoSpeed)) rnd(choices).click(); return; }
+  const nx = document.querySelector('#choices-container button[onclick="nextYear()"]');
+  if (nx && ready(nx, 800 / autoSpeed)) nx.click();
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLog(); closeConfirm(); } });
+
+// ----- Göç: ülke, şehir, para ve çevre değişir -----
+const LANG = { "Hindistan": "Hintçe", "Çin": "Çince", "Amerika Birleşik Devletleri": "İngilizce", "Endonezya": "Endonezce", "Pakistan": "Urduca", "Nijerya": "İngilizce", "Brezilya": "Portekizce", "Bangladeş": "Bengalce", "Rusya": "Rusça", "Meksika": "İspanyolca", "Etiyopya": "Amharca", "Japonya": "Japonca", "Filipinler": "Filipince", "Mısır": "Arapça", "Demokratik Kongo": "Fransızca", "Vietnam": "Vietnamca", "Türkiye": "Türkçe", "İran": "Farsça", "Almanya": "Almanca", "Birleşik Krallık": "İngilizce", "Fransa": "Fransızca", "Güney Kore": "Korece" };
+const FOOD = { "Hindistan": "baharatlı biryani", "Çin": "buharda mantı", "Amerika Birleşik Devletleri": "kızarmış tavuk ve waffle", "Endonezya": "nasi goreng", "Pakistan": "kuzu karahi", "Nijerya": "jollof pilavı", "Brezilya": "feijoada", "Bangladeş": "hilsa balığı", "Rusya": "pelmeni", "Meksika": "taco al pastor", "Etiyopya": "injera ve wot", "Japonya": "ramen", "Filipinler": "adobo", "Mısır": "koshari", "Demokratik Kongo": "muamba de poulet", "Vietnam": "pho", "Türkiye": "simit ve çay", "İran": "ghormeh sabzi", "Almanya": "currywurst", "Birleşik Krallık": "fish and chips", "Fransa": "kruvasan ve peynir tabağı", "Güney Kore": "kimchi jjigae" };
+
+function relocate(dest, costMul, keepSalary) {
+  const g = gameState, old = g.country, k = dest.baseIncome / old.baseIncome;
+  g.wealth = g.wealth * k - dest.baseIncome * costMul;
+  g.maxW = g.maxW * k; g.hist.forEach(p => { p.w = p.w * k; });
+  g.annualSalary = keepSalary ? Math.round(g.annualSalary * k) : 0;
+  g.country = dest; g.city = rnd(dest.cities); g.reg = rnd(dest.regs); g.regs = dest.regs;
+  try { setMiniGlobe(dest); if (MINI_GLOBE) { const [lo, la] = posOf(dest); MINI_GLOBE.spinTo(lo, la, { dur: 1.6, turns: 1 }); } } catch (e) {}
+}
+function migrate(kind) {
+  const g = gameState, old = g.country;
+  let pool = countries.filter(c => c.name !== old.name && (kind === "study" ? c.dev >= 0.9 : (c.dev > old.dev + 0.05 || c.dev >= 0.9)));
+  if (!pool.length) pool = countries.filter(c => c.name !== old.name);
+  const dest = weightedPick(pool, c => Math.pow(c.dev, 3) * Math.pow(c.weight, 0.25));
+  const home = g.abroad ? g.abroad.from : old;
+  relocate(dest, kind === "study" ? 0.10 : 0.18, kind !== "study");
+  g.abroad = { from: home, since: g.age, year: g.year, kind, arrived: false, lang: 0, citizen: false };
+  g.everAbroad = true; g.marks.push({ a: g.age, icon: "✈️" });
+  return `<br><br>✈️ <b>${dest.flag} ${dest.name}</b> — <b>${g.city}</b> şehrine taşındın. ${LANG[dest.name] || "Yerel dil"} konuşulan, kokusu ve kuralları farklı yeni bir hayat seni bekliyor. Para birimin artık <b>${dest.currency}</b>.`;
+}
+function returnHome(why) {
+  const g = gameState; if (!g.abroad) return "";
+  const home = g.abroad.from;
+  relocate(home, 0.05, why !== "deport");
+  g.abroad = null; g.marks.push({ a: g.age, icon: "🛬" });
+  if (why === "deport") { g.job = "İşsiz"; return ` 🛂 <b>Sınır dışı edildin.</b> ${home.flag} ${home.name}'e (${g.city}) geri döndün; işini ve birikimlerinin bir kısmını kaybettin.`; }
+  return ` 🛬 ${home.flag} <b>${home.name}</b>'e (${g.city}) döndün. Dönüş, kendi içinde yeni bir başlangıç.`;
+}
+
+// ----- Gurbet hayatı olayları: yeni komşular, iş arkadaşları, kültür, evrak, özlem -----
+const abCtx = () => {
+  const g = gameState, d = g.country, nm = () => rnd(d.maleNames.concat(d.femaleNames)) + " " + rnd(d.surnames);
+  const home = g.abroad ? g.abroad.from : d;
+  return { d, home, lang: LANG[d.name] || "yerel dil", food: FOOD[d.name] || "yerel bir yemek", nb: nm(), cw: nm(), boss: nm(), city: g.city, yrs: g.abroad ? g.age - g.abroad.since : 0, v: Math.floor(Math.random() * 3), par: g.family.find(f => (f.rel === "Baba" || f.rel === "Anne") && alive(f)) };
+};
+const AB = o => Object.assign({ cond: () => !!gameState.abroad, ctx: abCtx, w: 3, rep: true, cd: 5 }, o || {});
+const abLang = () => (gameState.abroad ? gameState.abroad.lang || 0 : 0);
+const langUp = () => { if (gameState.abroad) gameState.abroad.lang = Math.min(6, abLang() + 1); return ""; };
+
+E("ab_arrive", 15, 99, "✈️ Yeni Ülkede İlk Gün", x => [
+  `${x.d.flag} <b>${x.city}</b>: uçaktan inerken havanın kokusu bile farklı.`,
+  `Bavulların elinde; tanıdık tek bir yüz yok. Tabelalar ${x.lang} yazıyor ve çoğunu anlamıyorsun.`,
+  `Hayatının yeni bölümünün ilk günü. Ne yapacaksın?`], x => [
+  C("🧭 Mahalleyi yürüyerek keşfet.", 0, 4, 0, `Sokak sokak dolaştın; bir fırından ${x.food} kokusu geliyordu. Burası bir gün evin olabilir.`, { t: { cesur: 1 } }),
+  C("📞 Ailene telefon edip sesini duy.", 0, 3, 0, `Annenin sesini duyunca gözlerin doldu; yine de güçlü görünmeyi seçtin.`, { t: { aile: 1 } }),
+  C(`📖 Hemen bir ${x.lang} kursuna yazıl.`, 0, 1, -.04, `Sınıftaki herkes senin gibi yabancıydı; ilk arkadaşların orada oldu.`, { t: { bilgi: 1 }, fx: langUp })],
+  AB({ pri: true, rep: false, cond: () => !!(gameState.abroad && !gameState.abroad.arrived), after: () => { gameState.abroad.arrived = true; } }));
+
+E("ab_neighbor", 16, 99, "🚪 Kapıdaki Komşu", x => [
+  `Kapı çaldı. Karşı daireden <b>${x.nb}</b> elinde ev yapımı ${x.food} ile duruyor.`,
+  `Komşun seni merak edip hoş geldin demeye gelmiş; sen dili zar zor çözüyorsun, o samimi gülümsüyor.`,
+  `Kapıyı sonuna kadar açacak mısın?`], x => [
+  C("☕ İçeri davet et, çay yap.", 0, 6, 0, `${x.nb} saatlerce oturdu; sana semti, pazarı ve işe giden en kısa yolu anlattı. İlk gerçek tanıdığın o oldu.`, { t: { sosyal: 1 }, fx: langUp }),
+  C("🙏 Teşekkür et ama mesafeni koru.", 0, 1, 0, `Nazik bir selam, kısa bir sohbet. Kapı yine kapandı.`, {}),
+  C("😴 Yorgunluğu bahane edip kapat.", 0, -3, 0, `Sonra bir daha kapı çalınmadı; merdivende karşılaşınca bakışlar kaçıyor.`, {})],
+  AB({ cd: 8 }));
+
+E("ab_noise", 16, 99, "🌙 Gece Yarısı Şikayeti", x => [
+  `Gece yarısı <b>${x.nb}</b> kapına dayandı: televizyon sesi yüksekmiş.`,
+  `${x.d.name}'de sessizlik kuralları katı; ev sahibine şikayet gidebilir.`,
+  `Nasıl karşılık vereceksin?`], x => [
+  C("🙇 Özür dile, ertesi gün küçük bir hediye bırak.", 0, 2, -.01, `Ertesi gün sana bir not bıraktı: 'Teşekkürler, komşu.' Artık selamlaşıyorsunuz.`, { t: { sosyal: 1 } }),
+  C("😤 Haklı olduğunu savun.", 0, -4, 0, `Tartışma büyüdü; ev sahibine uyarı yazısı gitti.`, { gamble: { p: .35, w: -.04, m: -6, res: `Ev sahibi resmi bir uyarı gönderdi; kira sözleşmenin yenilenmesi tehlikeye girdi.` } }),
+  C("🎉 Bir sonraki hafta onları da yemeğe çağır.", 0, 3, -.02, `Herkes biraz yabancı biraz konuk gibi oturdu; buz kırıldı.`, { t: { sosyal: 1, risk: 1 }, fx: langUp })],
+  AB({ cd: 9 }));
+
+E("ab_cowork", 18, 70, "💼 Yeni İş Arkadaşları", x => [
+  x.v === 0 ? `Yeni ofiste <b>${x.cw}</b> ve ekip seni öğle yemeğine çağırmadı; sonra çağırdılar ama aksanınla ilgili şakalar yaptılar.`
+    : x.v === 1 ? `Ofis kültürü burada çok farklı: herkes saat 17'de çıkıyor, e-postalar kısa, toplantılar sessiz. <b>${x.cw}</b> sana 'uyum sağlıyorsun' dedi.`
+    : `Müdürün <b>${x.boss}</b>, yabancı olduğunu bildiği için sana ekstra yazışma işlerini verdi; ekip bunu fark etti.`,
+  `Burada kendini kanıtlaman gerekiyor; ya da bu ortama alışman.`,
+  `Ne yapacaksın?`], x => [
+  C("😄 Şakalara katıl, kendi mizahınla karşılık ver.", 0, 4, 0, `Gülüştünüz. Sonraki hafta öğle yemeğine kendiliğinden çağrıldın.`, { t: { sosyal: 1 }, fx: langUp }),
+  C("💼 Sonuçlarla konuş: işte kendini kanıtla.", -3, 1, 0, `Üç ay boyunca herkesten fazla çalıştın.`, { t: { hirs: 1 }, gamble: { p: .5 + Math.min(.15, abLang() * .03), salx: 1.12, m: 4, res: `<b>${x.boss}</b> performansını fark etti: zam geldi!` } }),
+  C("🚪 Mesafeni koru, sadece işini yap.", 0, -2, 0, `Sorun çıkmadı ama sohbetlerin dışında kaldın.`, {})],
+  AB({ cd: 5 }));
+
+E("ab_lang", 16, 99, "🗣️ Dil Engeli", x => abLang() >= 3 ? [
+  `Bugün resmi daire sırasında memurla ${x.lang} bir konuşma yaptın; kimseden yardım istemeden işini hallettin.`,
+  `Hatta memurla espri bile yaptın. Aylar önceki sen buna inanmazdı.`,
+  `Bu küçük zaferi nasıl kutlayacaksın?`] : [
+  `Bir resmi daire kuyruğunda memur sana ${x.lang} bir şey söylüyor; sen yarım yamalak anlıyorsun.`,
+  `Arkandaki kuyruk sabırsızlanıyor. Evrakında eksik olduğunu sezdin ama tam anlayamadın.`,
+  `Ne yapacaksın?`], x => abLang() >= 3 ? [
+  C("🍰 Kendine bir tatlı ısmarla.", 0, 6, -.01, `Bir şey fark ettin: artık buradasın.`, {}),
+  C("📚 Daha da ileri git: ileri düzey kursa yaz.", 0, 2, -.03, `Bilgin ve özgüvenin birlikte arttı.`, { t: { bilgi: 1 }, fx: langUp })] : [
+  C("📱 Çeviri uygulamasını aç.", 0, -1, 0, `Eksik evrak çıktı; ertesi gün tekrar geldin.`, { fx: langUp }),
+  C("🤝 Yanındaki yabancıdan yardım iste.", 0, 3, 0, `Yanındaki kadın hem çeviri yaptı hem telefon numarasını verdi.`, { t: { sosyal: 1 } }),
+  C("📖 Bu kez gidip dili sağlam öğren.", -2, -2, -.03, `Akşamları kurs, geceleri tekrar... yorucu ama işe yarıyor.`, { t: { bilgi: 1 }, fx: langUp })],
+  AB({ cd: 4 }));
+
+E("ab_permit", 18, 85, "🛂 Oturum İzni", x => [
+  `Oturum izninin süresi doluyor; ${x.d.name} makamları yeni evrak ve gelir belgesi istiyor.`,
+  `Küçük bir hata sınır dışı demek olabilir; ama her şey doğru olursa yıllarca rahat edersin.`,
+  `Süreci nasıl yöneteceksin?`], x => [
+  C("⚖️ Bir avukat tut.", 0, 1, -.08, `Avukat evrakları titizlikle hazırladı; izin sorunsuz uzadı.`, {}),
+  C("📂 Kendin hallet.", -2, 0, -.01, `Günlerce kuyruk bekledin; evrakları tek tek tamamladın.`, { gamble: { p: Math.max(.08, .26 - abLang() * .04), m: -14, w: -.04, res: `Evrakların eksik bulundu; izninin uzatılması reddedildi.`, fx: () => returnHome("deport") } }),
+  C("🙈 Son güne bırak.", 0, 0, 0, `Son güne bıraktın...`, { gamble: { p: .55, m: -16, w: -.05, res: `Süre kaçtı. Başvurun geçersiz sayıldı.`, fx: () => returnHome("deport") } })],
+  AB({ cd: 7, cond: () => !!(gameState.abroad && !gameState.abroad.citizen) }));
+
+E("ab_homesick", 17, 95, "🕯️ Özlem", x => [
+  `Bugün ${x.home.flag} ${x.home.name}'de özel bir gün: ailen şimdi bir sofraya oturmuştur.`,
+  `Sen ise ${x.city}'de, ofis lambalarının altında ya da yalnız bir akşamdasın.`,
+  `Bu özlemi nasıl taşıyacaksın?`], x => [
+  C("📹 Görüntülü arayıp sofraya katıl.", 0, 4, 0, `Ekranın öbür tarafında herkes bir şeyler söyledi; çocukluk evinin sesini duydun.`, { t: { aile: 1 } }),
+  C("🛫 Bilet al ve uç.", 2, 9, -.12, `Havaalanında karşılandın; birkaç gün tüm dertlerin sustu.`, { t: { aile: 1 } }),
+  C(`🍲 ${x.food} pişirip yalnız kutla.`, 0, 2, 0, `Tadı aynı değildi ama bir parça ev geldi.`, {})],
+  AB({ cd: 4 }));
+
+E("ab_discrim", 18, 90, "🧱 Önyargı", x => [
+  `Bir ev ilanı için aradın; telefonda aksanını duyunca 'ev kiralandı' dediler.`,
+  `Aynı hafta işyerinde de bir toplantıda sözün kesildi. Bunun tesadüf olmadığını hissediyorsun.`,
+  `Nasıl karşılık vereceksin?`], x => [
+  C("🗣️ Sakin ve net bir dille itiraz et.", 0, -1, 0, `Karşındaki bir an sustu; en azından haklı olduğunu duydu.`, { t: { cesur: 1, sosyal: 1 } }),
+  C("📑 Resmî şikayet başvurusu yap.", -2, 0, -.03, `Aylar süren bir süreç başladı.`, { gamble: { p: .5, m: 7, res: `Şikayetin sonuç verdi; özür dilendi ve durum düzeltildi.` } }),
+  C("😶 Sessiz kal, devam et.", 0, -5, 0, `İçine attın; ama bir sonraki gün yeni bir ilan buldun.`, {})],
+  AB({ cd: 9 }));
+
+E("ab_remit", 18, 90, "💸 Memleketten Mesaj", x => [
+  `${x.home.flag} Ailenden mesaj: kardeşinin okul masrafı ve kira için yardım istiyorlar.`,
+  `Burada hayat pahalı; ama senin kazandığın para orada çok şey ifade ediyor.`,
+  `Ne kadar göndereceksin?`], x => [
+  C("💶 Büyük bir kısmını gönder.", 0, 3, -.12, `Ailen sana dualarla teşekkür etti; sen ay sonunu sıkı geçirdin.`, { t: { aile: 1 } }),
+  C("💵 Yarısını gönder.", 0, 1, -.05, `Hem onlara destek oldun hem kendine yer bıraktın.`, {}),
+  C("🙅 Bu ay gönderemeyeceğini söyle.", 0, -6, 0, `Telefonda uzun bir sessizlik oldu.`, { t: { aile: -1 } })],
+  AB({ cd: 5 }));
+
+E("ab_diaspora", 17, 95, "🌐 İki Dünya Arasında", x => [
+  `${x.d.name}'de ${x.home.name} kökenli insanlar hafta sonu bir araya geliyor; ana dilini duyacaksın.`,
+  `Aynı gün yerel arkadaşların da seni pikniğe çağırdı.`,
+  `Hangisine gideceksin?`], x => [
+  C(`${x.home.flag} Topluluk buluşmasına git.`, 0, 5, 0, `Yemekler, şarkılar ve tanıdık şakalar... burada bile bir mahalle varmış.`, { t: { aile: 1 } }),
+  C(`${x.d.flag} Yerel arkadaşlarla piknik.`, 0, 3, 0, `Yeni insanlarla yeni bir dil; kendini daha çok buralı hissettin.`, { t: { sosyal: 1 }, fx: langUp }),
+  C("🏠 Evde kal.", 0, -2, 0, `Sessiz bir pazar... biraz fazla sessiz.`, {})],
+  AB({ cd: 6 }));
+
+E("ab_citizen", 24, 90, "🪪 Vatandaşlık Sınavı", x => [
+  `Yıllardır ${x.d.name}'desin. Vatandaşlık başvurusunun sınav ve mülakat tarihi geldi.`,
+  `Geçersen pasaportun, oy hakkın ve güvence demek; kaybedersen yeniden beklemek.`,
+  `Nasıl hazırlanacaksın?`], x => [
+  C("📚 Haftalarca çalış.", -2, 4, -.02, `Başvuru dosyan kabul edildi: artık ${x.d.name} vatandaşısın!`, { t: { bilgi: 1 }, fx: () => { gameState.abroad.citizen = true; return ""; }, gamble: { p: Math.max(.12, .45 - abLang() * .07), m: -10, res: `Sınavda takıldın; başvurun reddedildi. Yeniden denemen gerekecek.`, fx: () => { gameState.abroad.citizen = false; return ""; } } }),
+  C("🎲 Şansına güven.", 0, 1, 0, `Mülakat odasında kalbin çarparak oturdun...`, { fx: () => { gameState.abroad.citizen = true; return " Pasaportun geldi: artık vatandaşsın!"; }, gamble: { p: .7, m: -9, res: `Cevapların yetersiz bulundu; başvurun reddedildi.`, fx: () => { gameState.abroad.citizen = false; return ""; } } }),
+  C("🚫 Vatandaşlık istemiyorum.", 0, -1, 0, `Kökenlerinle bağını korumayı seçtin.`, { t: { aile: 1 } })],
+  AB({ rep: true, cd: 5, w: 4, cond: () => !!(gameState.abroad && !gameState.abroad.citizen && gameState.age - gameState.abroad.since >= 5) }));
+
+E("ab_parent_far", 28, 95, "📞 Gece Telefonu", x => [
+  `Gece yarısı telefon çaldı: ${x.par ? x.par.rel.toLowerCase() : "annen"}n ${x.home.name}'de hastaneye kaldırıldı.`,
+  `Uçak bileti pahalı, izin almak zor; ama bu telefonu hiç unutmayacaksın.`,
+  `Ne yapacaksın?`], x => [
+  C("🛫 İlk uçakla git.", -2, 4, -.14, `Hastane koridorunda saatlerce oturdun; sonunda tehlike atlatıldı.`, { t: { aile: 1 } }),
+  C("📲 Para gönder, her gün ara.", 0, -3, -.08, `Telefonun öbür ucunda sesi güçlüydü ama için rahat olmadı.`, {}),
+  C("⏳ Bekleyip gelişmeleri gör.", 0, -9, 0, `Üç gün boyunca telefona bakmaktan başka bir şey yapamadın.`, { t: { aile: -1 } })],
+  AB({ cd: 8, cond: () => !!(gameState.abroad && gameState.family.some(f => (f.rel === "Baba" || f.rel === "Anne") && alive(f))) }));
+
+E("ab_landlord", 18, 90, "🏠 Kira Zammı", x => [
+  `Ev sahibin <b>${x.boss}</b> kirayı %25 artıracağını söyledi.`,
+  `${x.city}'de ev bulmak zor; taşınmak da masraf.`,
+  `Ne yapacaksın?`], x => [
+  C("🤝 Pazarlık et.", 0, 0, 0, `Görüşmeye hazırlıklı gittin.`, { gamble: { p: .55, w: -.06, m: -3, res: `Ev sahibi geri adım atmadı; zam aynen geldi.` } }),
+  C("📦 Başka bir semte taşın.", -2, 1, -.06, `Yeni bir semt, yeni bir pazar ve yeni komşular...`, { fx: () => { gameState.city = rnd(gameState.country.cities); return ` Yeni adresin: <b>${gameState.city}</b>.`; } }),
+  C("😔 Kabul et.", 0, -2, -.04, `Bütçeni yeniden düzenledin.`, {})],
+  AB({ cd: 7 }));
+
+E("ab_food", 16, 95, "🍜 Pazardaki Teyze", x => [
+  `Mahalle pazarında ${x.food} yapan yaşlı bir kadın var; her gün önünden geçiyorsun.`,
+  `Bir gün sana tarifini ${x.lang} anlattı. Çoğunu anlamadın ama el hareketleri yetti.`,
+  `Ne yapacaksın?`], x => [
+  C("📝 Tarifi öğren.", 0, 4, 0, `Akşam evde ilk denemen biraz yandı ama komşunu yemeğe çağıracak kadar güvendin.`, { t: { bilgi: 1 }, fx: langUp }),
+  C("🥢 Sadece satın al, tadını çıkar.", 0, 3, -.005, `Bir kasenin içinde yepyeni bir ülke.`, {}),
+  C("🚶 Acele işin var, geç.", 0, 0, 0, `Bir sonraki gün seni görünce el salladı.`, {})],
+  AB({ cd: 6, filler: true, w: 2 }));
+
+E("ab_career", 22, 65, "📈 Terfi mi, Taşınma mı?", x => [
+  `<b>${x.boss}</b> sana bir terfi teklif etti; ama başka bir şehirdeki şubeye taşınmalısın.`,
+  `Maaş artıyor ama yeni kurduğun düzen ve arkadaşların geride kalacak.`,
+  `Karar senin.`], x => [
+  C("🚀 Kabul et, taşın.", -2, 1, -.04, `Yeni şehir, yeni ofis, daha yüksek maaş.`, { salx: 1.25, t: { hirs: 1, risk: 1 }, fx: () => { gameState.city = rnd(gameState.country.cities); return ` Yeni şehrin: <b>${gameState.city}</b>.`; } }),
+  C("🏘️ Kal, mevcut düzenini koru.", 0, 3, 0, `Burada kökleriniz derinleşti.`, { t: { aile: 1 } }),
+  C("🔁 Rakip firmaya geç.", -1, 0, 0, `Rakipten teklif aldın.`, { gamble: { p: .5, salx: 1.2, m: 4, res: `Rakip firma seni yüksek maaşla aldı!` } })],
+  AB({ cd: 8 }));
+
+E("ab_return_offer", 30, 72, "🛬 Eve Dönüş Teklifi", x => [
+  `${x.home.flag} ${x.home.name}'deki eski şirketin seni geri çağırıyor.`,
+  `Ailen yakın olacak; ama ${x.yrs} yılda burada kurduğun hayat — arkadaşların, alışkanlıkların — geride kalacak.`,
+  `Dönecek misin?`], x => [
+  C("🛬 Eve dön.", 0, 5, 0, `Valizini kapatırken ağladın ama gülüyordun.`, { t: { aile: 1 }, fx: () => returnHome("choice") }),
+  C(`${x.d.flag} Burada kal.`, 0, 1, 0, `Artık burası da evin.`, {})],
+  AB({ cd: 12, w: 2, cond: () => !!(gameState.abroad && gameState.age - gameState.abroad.since >= 4) }));
     </script>
 </body>
 </html>

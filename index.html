@@ -107,6 +107,71 @@
             #avatar-icon { transform: none !important; }
         }
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+        /* ===== Karar kartları · sahneler · atmosfer ===== */
+        @property --a1 { syntax: '<color>'; inherits: true; initial-value: #3b82f6; }
+        @property --a2 { syntax: '<color>'; inherits: true; initial-value: #f59e0b; }
+        #atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .30; transition: --a1 1.8s ease, --a2 1.8s ease; --a1: #3b82f6; --a2: #f59e0b;
+            background: radial-gradient(820px 520px at 88% -6%, var(--a1), transparent 66%), radial-gradient(760px 520px at 4% 108%, var(--a2), transparent 66%); }
+        .scene { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,.10); box-shadow: 0 14px 40px rgba(0,0,0,.5), 0 0 0 1px color-mix(in srgb, var(--cat, #e8b45c) 35%, transparent); aspect-ratio: 360 / 135; background: #0b1020; transform: translateZ(0); }
+        .scene svg { display: block; width: 100%; height: 100%; }
+        .scene-in { animation: sceneIn .7s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes sceneIn { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+        .scene-chip { position: absolute; left: 10px; top: 10px; font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #fff; padding: .3rem .6rem; border-radius: 999px; background: rgba(8,13,26,.62); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .scene-flag { position: absolute; right: 10px; top: 8px; font-size: 1.35rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+        .sc-drift { animation: scDrift 26s linear infinite alternate; } @keyframes scDrift { from { transform: translateX(-10px); } to { transform: translateX(14px); } }
+        .sc-float { animation: scFloat 3.4s ease-in-out infinite; } @keyframes scFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        .sc-tw { animation: scTw 2.8s ease-in-out infinite; } @keyframes scTw { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+        .sc-rain { animation: scRain .9s linear infinite; } @keyframes scRain { from { transform: translate(0,-8px); opacity: 0; } 30% { opacity: .7; } to { transform: translate(-4px,26px); opacity: 0; } }
+        .sc-flash { animation: scFlash 3.2s steps(1) infinite; } @keyframes scFlash { 0%,86%,92%,100% { opacity: 0; } 88%,94% { opacity: 1; } }
+        .sc-swing { animation: scSwing 2.6s ease-in-out infinite alternate; } @keyframes scSwing { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+        .sc-fly { animation: scFly 9s linear infinite; } @keyframes scFly { from { transform: translateX(-60px); } to { transform: translateX(150px); } }
+        .sc-fly2 { animation: scFloat 4s ease-in-out infinite; }
+        .sc-leaf { animation: scLeaf 3.6s ease-in infinite; } @keyframes scLeaf { from { transform: translate(0,0) rotate(0); opacity: 1; } to { transform: translate(-16px,56px) rotate(200deg); opacity: 0; } }
+        .sc-orbit { transform-origin: 180px 70px; animation: scOrbit 7s linear infinite; } @keyframes scOrbit { to { transform: rotate(360deg); } }
+        #event-list p { border-left: 3px solid var(--cat, rgba(232,180,92,.35)) !important; }
+
+        #choices-container .dcard { position: relative; display: flex; align-items: center; gap: .8rem; width: 100%; text-align: left; margin-bottom: .6rem; min-height: 56px; padding: .8rem .9rem; border-radius: 20px;
+            background: linear-gradient(150deg, rgba(24,36,64,.92), rgba(10,16,31,.94)); border: 1px solid rgba(232,180,92,.22); color: #e2e8f0; font-size: .92rem; font-weight: 600; line-height: 1.35;
+            box-shadow: 0 6px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06); overflow: hidden; -webkit-tap-highlight-color: transparent;
+            --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%; transform: perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+            transition: transform .18s ease-out, box-shadow .25s, border-color .25s, opacity .22s; animation: dcIn .55s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(var(--i, 0) * 80ms); will-change: transform; }
+        #choices-container .dcard::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s; background: radial-gradient(240px circle at var(--gx) var(--gy), rgba(255,255,255,.16), transparent 60%); }
+        @media (hover: hover) { #choices-container .dcard:hover { border-color: rgba(232,180,92,.75); box-shadow: 0 16px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(232,180,92,.3), 0 0 28px color-mix(in srgb, var(--cat, #e8b45c) 30%, transparent); transform: perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px) scale(1.012); } #choices-container .dcard:hover::after { opacity: 1; } }
+        #choices-container .dcard:active { transform: perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) scale(.975); border-color: rgba(232,180,92,.9); }
+        #choices-container .dcard:active::after { opacity: 1; }
+        #choices-container .dcard .dc-k { flex: none; width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: .8rem; color: #1a1205; background: linear-gradient(180deg, #f7c867, #d9901f); box-shadow: 0 2px 8px rgba(217,144,31,.4); }
+        #choices-container .dcard .dc-t { flex: 1; }
+        #choices-container .dcard .dc-go { flex: none; font-size: 1.4rem; color: #e8b45c; opacity: .7; transition: transform .2s; }
+        #choices-container .dcard:hover .dc-go { transform: translateX(3px); opacity: 1; }
+        @keyframes dcIn { from { opacity: 0; transform: translateX(34px) scale(.97); } to { opacity: 1; transform: perspective(800px) rotateX(0) rotateY(0) translateZ(0); } }
+        #choices-container .dcard.picked { animation: none; transform: scale(1.04); border-color: #f7c867; box-shadow: 0 0 0 2px rgba(247,200,103,.55), 0 0 36px rgba(247,200,103,.45); transition: transform .22s cubic-bezier(.3,1.5,.5,1), box-shadow .22s; }
+        #choices-container .dcard.out { animation: none; opacity: 0; transform: translateX(-28px) scale(.94); transition: transform .22s ease-in, opacity .2s ease-in; pointer-events: none; }
+        #choices-container .rcard { animation: rcIn .55s cubic-bezier(.16,1,.3,1) both; border-left: 4px solid var(--cat, #e8b45c) !important; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+        @keyframes rcIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+        #choices-container .rchips > span { animation: chipPop .5s cubic-bezier(.3,1.6,.5,1) both; }
+        #choices-container .rchips > span:nth-child(2) { animation-delay: .08s; } #choices-container .rchips > span:nth-child(3) { animation-delay: .16s; } #choices-container .rchips > span:nth-child(n+4) { animation-delay: .24s; }
+        @keyframes chipPop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .sc-drift,.sc-float,.sc-tw,.sc-rain,.sc-flash,.sc-swing,.sc-fly,.sc-fly2,.sc-leaf,.sc-orbit { animation: none !important; } }
+
+        /* ===== Resimli seçim kartları + odak ===== */
+        #choices-container .vc-head { text-align: center; font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; color: #fde68a; margin: 1.1rem 0 .8rem; text-shadow: 0 0 24px rgba(232,180,92,.45); animation: dcIn .5s both; }
+        #choices-container .vgrid { display: grid; gap: .75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        #choices-container .vgrid.n3 .vcard:last-child, #choices-container .vgrid.n1 .vcard { grid-column: 1 / -1; }
+        @media (min-width: 720px) { #choices-container .vgrid.n3 { grid-template-columns: repeat(3, 1fr); } #choices-container .vgrid.n3 .vcard:last-child { grid-column: auto; } #choices-container .vgrid.n4 { grid-template-columns: repeat(4, 1fr); } }
+        #choices-container .vcard { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; margin: 0; text-align: center; min-height: 0; border-radius: 22px; }
+        #choices-container .vcard .vc-art { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+        #choices-container .vcard .vc-art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        #choices-container .vcard .vc-emoji { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-58%); font-size: clamp(2.8rem, 12vw, 4.2rem); line-height: 1; filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); animation: scFloat 3.6s ease-in-out infinite; animation-delay: calc(var(--i, 0) * .4s); }
+        #choices-container .vcard .dc-k { position: absolute; left: 10px; top: 10px; }
+        #choices-container .vcard .vc-txt { padding: .75rem .8rem .9rem; font-size: .9rem; font-weight: 700; line-height: 1.3; color: #f1f5f9; flex: 1; display: flex; align-items: center; justify-content: center; }
+        #choices-container .vcard { animation: vcIn .65s cubic-bezier(.2,1.1,.3,1) both; animation-delay: calc(var(--i, 0) * 110ms + 120ms); }
+        @keyframes vcIn { from { opacity: 0; transform: translateY(46px) rotate(calc((var(--i, 0) - 1) * 2.5deg)) scale(.88); } to { opacity: 1; transform: perspective(800px) rotateX(0) rotateY(0) translateZ(0); } }
+        body.choosing #event-list, body.choosing #status-bars, body.choosing #news-panel, body.choosing #story-header-bar { opacity: .38; filter: saturate(.7); transition: opacity .5s, filter .5s; }
+        #event-list, #status-bars, #news-panel, #story-header-bar { transition: opacity .5s, filter .5s; }
+        body.choosing #choices-container { position: relative; padding: .4rem .2rem .6rem; border-radius: 26px; background: radial-gradient(120% 90% at 50% 0%, rgba(232,180,92,.14), transparent 70%); animation: spotIn .6s ease both; }
+        @keyframes spotIn { from { box-shadow: 0 0 0 0 rgba(232,180,92,0); } to { box-shadow: 0 0 0 1px rgba(232,180,92,.16), 0 0 60px rgba(232,180,92,.14); } }
+        body.choosing #atmos { opacity: .14; }
+        @media (max-width: 719px) { #choices-container .vgrid.n3 .vcard:last-child .vc-art, #choices-container .vgrid.n1 .vcard .vc-art { aspect-ratio: 16 / 8; } }
     </style>
 </head>
 <body class="bg-darkbg text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
@@ -1922,13 +1987,12 @@ function renderYear() {
 }
 
 function showChoices() {
-  let html = `<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 fade-in mt-4">Ne Yapacaksın?</p>`;
-  current.choices.forEach((ch, i) => {
-    html += `<button onclick="makeChoice(${i})" class="w-full text-left bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 p-3.5 min-h-[48px] rounded-2xl text-sm font-medium transition flex items-center justify-between shadow-sm group fade-in mb-2">
-      <span class="group-hover:text-amber-300 transition pr-4">${ch.text}</span>
-      <span class="text-xs font-bold text-amber-400 shrink-0">Seç</span></button>`;
-  });
+  const cat = (typeof Cards !== "undefined") ? Cards.classify(current.ev, gameState) : "career";
+  let html = `<div class="vc-head">Ne Yapacaksın?</div><div class="vgrid n${current.choices.length}">`;
+  current.choices.forEach((ch, i) => { html += choiceCard(ch, i, cat); });
+  html += `</div>`;
   document.getElementById("choices-container").innerHTML = html;
+  if (typeof Cards !== "undefined") Cards.focus();
 }
 // ===== MOTOR (2): sonuçlar, zorluk, doğa olayları, son, e-posta =====
 const scaleHM = v => v > 0 ? Math.round(v * 0.7) : Math.round(v * 1.2);
@@ -1987,8 +2051,8 @@ function makeChoice(i) {
   if (g.annualSalary !== before.s) chips += chip(`💵 Yıllık gelir: ${fmt(g.annualSalary)} ${cur}`, g.annualSalary > before.s ? good : badc);
   document.getElementById("choices-container").innerHTML = `
     <div class="fade-in space-y-4 mt-4">
-      <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-sm sm:text-base text-slate-100">${(current && current.nm ? current.nm(res || "Karar verildi.") : (res || "Karar verildi."))}</div>
-      <div class="flex flex-wrap gap-2">${chips}</div>
+      <div class="rcard bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-sm sm:text-base text-slate-100">${(current && current.nm ? current.nm(res || "Karar verildi.") : (res || "Karar verildi."))}</div>
+      <div class="rchips flex flex-wrap gap-2">${chips}</div>
       <button onclick="nextYear()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-2xl shadow-lg transition text-sm sm:text-base">Sonraki Yıl ▶</button>
     </div>`;
 }
@@ -3241,6 +3305,263 @@ function famNamer() {
     return r;
   };
 })();
+// ================= Karar kartları · sahne illüstrasyonları · atmosfer (görsel katman) =================
+// Çekirdek oyun mantığına dokunmaz: DOM'u gözlemler, sahneyi ekler, tema değişkenlerini günceller.
+const Cards = (function () {
+  let uid = 0;
+  // [gökÜst, gökAlt, zemin, vurgu, etiket, emoji]
+  const PAL = {
+    childhood: ["#fcd9a8", "#fdeed0", "#7fc77a", "#f59e0b", "Çocukluk", "🧸"],
+    school: ["#9ed0ff", "#e3f2ff", "#6fbf73", "#3b82f6", "Okul", "🎒"],
+    career: ["#26365f", "#f2a65a", "#222c44", "#38bdf8", "Kariyer", "💼"],
+    love: ["#8a5cc2", "#ffb48a", "#3b2a55", "#f43f5e", "Aşk", "💞"],
+    crisis: ["#12151f", "#5a2a33", "#171216", "#ef4444", "Kriz", "⚠️"],
+    finance: ["#1b3556", "#f4c25a", "#22324a", "#fbbf24", "Finans", "💰"],
+    family: ["#ffd9b0", "#fff1d6", "#79b66b", "#fb923c", "Aile", "🏠"],
+    abroad: ["#5fb4f5", "#d9f0ff", "#4b8f7a", "#06b6d4", "Gurbet", "✈️"],
+    elder: ["#4b3d78", "#f4a97a", "#322f45", "#a78bfa", "Yaşlılık", "🌅"],
+    world: ["#070d20", "#1e3a6e", "#0b1020", "#60a5fa", "Dünya", "🌍"]
+  };
+  const STAGES = { baby: "Bebeklik", child: "Çocukluk", teen: "Gençlik", adult: "Yetişkinlik", elder: "Yaşlılık" };
+  const stageOf = a => (a < 3 ? "baby" : a < 13 ? "child" : a < 20 ? "teen" : a < 65 ? "adult" : "elder");
+
+  // ---- Olayı kategoriye eşle ----
+  const RX = [
+    ["abroad", /^(ab_|abroad|ad_move|pl_f2|pl_g2|rf_d1|rf_f2|lasttrip|newcity)/],
+    ["crisis", /^(world_|crisis|t_danger|scare|fall|scam|ad_blackout|ad_boat|ad_strike|ad_scandal|harassment|bully|kid_trouble|parent_ill|spouse_ill|parent_death|spouse_death|friend_dies|pl_f1|ad_debt|ad_burnout|wow_dna_x)/],
+    ["finance", /^(loan|mortgage|credit|lottery|inherit|bribe|startup|ad_mobile|ad_brand|ad_loan|ad_tax|ad_bazaar|gap|house|rf_f1|rf_g1|ad_familybiz|charity|ad_mortgage|wow_treasure|wow_award|kid_money|pl_b2|ad_society|fm_b1)/],
+    ["love", /^(firstlove|romance|temptation|marital|baby_|adopt|kid_wedding|ad_arranged|reconcile|ad_paparazzi)/],
+    ["family", /^(sibling|kid_|grandchild|pl_a3|pl_c2|md_a1|md_a2|ad_neighbor|neighbors|pet|stray|wow_double|wow_dna)/],
+    ["school", /^(school1|lunch|exam|talent|pressure|graduation|mentor$|path_|pl_c1|pl_d2|pl_d3|md_b1|md_c|md_d|md_f1|md_g1|t_school|rf_b1|rf_c2|reunion|kid_school|phone|md_e1)/],
+    ["career", /^(promotion|career|firstjob|job_hunt|mentoring|ad_union|ad_overwork|md_g2|pl_g1|pl_e1|viral|fm_|rf_e2|wow_celeb|ad_shadow|credit)/],
+    ["elder", /^(retire|memoir|will|nursing|memory|advice|lastwish|teach|hobby|ad_marathon)/],
+    ["childhood", /^(birth|steps|firstword|imaginary|vase|md_a|md_b|pl_a|pl_b|rf_a|rf_b|t_home|t_street|t_chore|t_festival|kid_step|pl_d1)/]
+  ];
+  function classify(ev, g) {
+    const id = ev.id || "";
+    if (/^world_/.test(id)) { return /war|savaş|deprem|sel|salgın|kriz|çökü|yangın|pandemi|afet|fırtına/i.test(ev.title || "") ? "crisis" : "world"; }
+    for (const [cat, re] of RX) if (re.test(id)) return cat;
+    const a = g.age; return a < 12 ? "childhood" : a < 19 ? "school" : a < 65 ? "career" : "elder";
+  }
+
+  // ---- SVG yapı taşları ----
+  const cloud = (x, y, s, o) => `<g transform="translate(${x} ${y}) scale(${s})" opacity="${o || .9}"><g class="sc-drift"><ellipse cx="0" cy="0" rx="22" ry="8" fill="#fff"/><ellipse cx="-10" cy="-5" rx="11" ry="9" fill="#fff"/><ellipse cx="9" cy="-6" rx="13" ry="10" fill="#fff"/></g></g>`;
+  const star = (x, y, r, d) => `<circle class="sc-tw" style="animation-delay:${d || 0}s" cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`;
+  const stars = (n, seed) => { let s = "", r = seed || 7; for (let i = 0; i < n; i++) { r = (r * 9301 + 49297) % 233280; const x = (r / 233280) * 360; r = (r * 9301 + 49297) % 233280; const y = (r / 233280) * 70; s += star(x.toFixed(0), y.toFixed(0), i % 3 ? .8 : 1.3, (i % 5) * .5); } return s; };
+  const hills = (c1, c2) => `<path d="M0 100 Q60 76 130 96 T260 90 T360 98 V135 H0Z" fill="${c2}" opacity=".55"/><path d="M0 108 Q90 90 180 104 T360 100 V135 H0Z" fill="${c1}"/>`;
+  const tree = (x, y, s, leaf) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-3" y="-26" width="6" height="26" rx="2" fill="#6b4a2f"/><circle cx="0" cy="-36" r="16" fill="${leaf}"/><circle cx="-11" cy="-27" r="11" fill="${leaf}" opacity=".9"/><circle cx="11" cy="-28" r="11" fill="${leaf}" opacity=".9"/></g>`;
+  const heart = (x, y, s, c, d) => `<g transform="translate(${x} ${y}) scale(${s})"><g class="sc-float" style="animation-delay:${d || 0}s"><path d="M0 4 C-10 -4 -8 -12 0 -8 C8 -12 10 -4 0 4Z" fill="${c}"/></g></g>`;
+  const win = (x, y, w, h, lit) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1" fill="${lit ? "#ffe9a8" : "#2d3b5c"}"${lit ? ' opacity=".95"' : ""}/>`;
+  // insan figürü: ayaklar (0,0) noktasında
+  function fig(x, y, s, stage, o) {
+    o = o || {};
+    const skin = o.skin || "#f1c9a0", cloth = o.cloth || "#3b82f6", pants = o.pants || "#334155";
+    const hair = stage === "elder" ? "#e5e7eb" : (o.hair || "#3b2a20");
+    const k = ({ baby: .58, child: .78, teen: .94, adult: 1, elder: .94 }[stage] || 1) * s;
+    const hr = stage === "baby" ? 9 : 7, bh = stage === "baby" ? 12 : 22;
+    const hy = -8 - bh - hr + 2;
+    const long = o.female && stage !== "baby";
+    return `<g transform="translate(${x} ${y}) scale(${k})">`
+      + `<ellipse cx="0" cy="1" rx="9" ry="2.2" fill="#000" opacity=".22"/>`
+      + (long ? `<rect x="${-hr - 1}" y="${hy}" width="${2 * hr + 2}" height="${hr * 2 + 4}" rx="6" fill="${hair}"/>` : "")
+      + `<rect x="-4.2" y="-9" width="3.6" height="9" rx="1.6" fill="${pants}"/><rect x="0.6" y="-9" width="3.6" height="9" rx="1.6" fill="${pants}"/>`
+      + `<rect x="-6.5" y="${-9 - bh}" width="13" height="${bh + 2}" rx="5" fill="${cloth}"/>`
+      + (o.bag ? `<rect x="-10" y="${-9 - bh + 3}" width="6" height="${bh - 6}" rx="2.5" fill="${o.bag}"/>` : "")
+      + (o.case ? `<rect x="6" y="-12" width="10" height="8" rx="1.5" fill="${o.case}"/><rect x="9" y="-14" width="4" height="2" rx="1" fill="${o.case}"/>` : "")
+      + (stage === "elder" ? `<path d="M7 -6 L11 0 M7 -6 L7 -18" stroke="#8b5a2b" stroke-width="2" stroke-linecap="round" fill="none"/>` : "")
+      + `<circle cx="0" cy="${hy}" r="${hr}" fill="${skin}"/>`
+      + `<path d="M${-hr} ${hy - 1} A${hr} ${hr} 0 0 1 ${hr} ${hy - 1} Q0 ${hy - 5} ${-hr} ${hy - 1}Z" fill="${hair}"/>`
+      + `<circle cx="-2.4" cy="${hy + 1}" r=".9" fill="#222"/><circle cx="2.4" cy="${hy + 1}" r=".9" fill="#222"/>`
+      + `</g>`;
+  }
+
+  // ---- Sahneler (viewBox 360x135, zemin ≈ y=104) ----
+  const SC = {
+    childhood(st, f) {
+      return `<circle cx="302" cy="28" r="15" fill="#ffd36b"/><circle cx="302" cy="28" r="22" fill="#ffd36b" opacity=".25"/>` + cloud(70, 24, 1) + cloud(215, 36, .8, .8) + hills("#7fc77a", "#a8d98f")
+        + `<g stroke="#8a5a34" stroke-width="3" stroke-linecap="round" fill="none"><path d="M38 106 L60 46 M102 106 L80 46 M56 46 H84"/></g><g class="sc-swing" style="transform-origin:70px 46px"><path d="M64 46 L62 88 M76 46 L78 88" stroke="#7b5a3b" stroke-width="1.5"/><rect x="57" y="87" width="26" height="4" rx="2" fill="#e25555"/></g>`
+        + `<circle cx="196" cy="98" r="8" fill="#ef4444"/><path d="M190 94 Q196 98 202 94" stroke="#fff" stroke-width="1.6" fill="none"/>`
+        + `<rect x="232" y="94" width="14" height="12" fill="#60a5fa"/><rect x="246" y="94" width="14" height="12" fill="#facc15"/><rect x="239" y="82" width="14" height="12" fill="#f87171"/>`
+        + `<g class="sc-float"><path d="M290 54 L302 66 L290 82 L278 66Z" fill="#f43f5e"/><path d="M290 54 L290 82 M278 66 H302" stroke="#fff" stroke-width=".8" opacity=".7"/><path d="M290 82 Q282 96 290 106 Q298 116 288 126" stroke="#fff" stroke-width="1.1" fill="none"/></g>`
+        + fig(140, 106, 1, st, { cloth: "#f59e0b" });
+    },
+    school(st, f) {
+      return cloud(60, 22, .9) + cloud(300, 30, .8, .8) + hills("#6fbf73", "#95d49a")
+        + `<rect x="112" y="46" width="136" height="60" fill="#f4d7a1"/><path d="M102 46 L180 16 L258 46Z" fill="#d9534f"/><rect x="164" y="76" width="32" height="30" rx="3" fill="#8a5a34"/>`
+        + [124, 146, 206, 228].map(x => `<rect x="${x}" y="58" width="16" height="16" rx="2" fill="#bfe3ff"/><path d="M${x + 8} 58 V74 M${x} 66 H${x + 16}" stroke="#fff" stroke-width="1"/>`).join("")
+        + `<circle cx="180" cy="36" r="8" fill="#fff" stroke="#8a5a34" stroke-width="2"/><path d="M180 36 V31 M180 36 L184 38" stroke="#333" stroke-width="1.4"/>`
+        + `<path d="M252 46 V6" stroke="#6b4a2f" stroke-width="2"/><path d="M252 8 L274 14 L252 20Z" fill="#ef4444"/>`
+        + `<g transform="translate(38 100)"><rect x="0" y="0" width="30" height="7" rx="1.5" fill="#3b82f6"/><rect x="2" y="-7" width="27" height="7" rx="1.5" fill="#ef4444"/><rect x="4" y="-14" width="24" height="7" rx="1.5" fill="#22c55e"/></g>`
+        + `<g transform="translate(304 70) rotate(35)"><rect x="0" y="0" width="52" height="8" rx="2" fill="#facc15"/><path d="M52 0 L64 4 L52 8Z" fill="#f1c9a0"/><path d="M60 3 L64 4 L60 5Z" fill="#333"/><rect x="0" y="0" width="8" height="8" rx="2" fill="#f87171"/></g>`
+        + fig(88, 106, 1, st, { cloth: "#ef4444", bag: "#1d4ed8", female: !f.isMale });
+    },
+    career(st, f) {
+      let b = ""; [[8, 54, 30], [42, 34, 36], [82, 62, 28], [114, 28, 40], [206, 46, 34], [244, 24, 42], [290, 58, 30], [324, 40, 34]].forEach(([x, y, w], i) => {
+        const h = 106 - y; b += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${i % 2 ? "#1b2744" : "#222f52"}"/>`;
+        for (let yy = y + 6; yy < 100; yy += 10) for (let xx = x + 5; xx < x + w - 5; xx += 9) b += win(xx, yy, 5, 5, (xx * 7 + yy * 3 + i) % 4 === 0);
+      });
+      return `<circle cx="180" cy="86" r="32" fill="#ffb86b" opacity=".55"/><circle cx="180" cy="86" r="18" fill="#ffd9a0"/>` + stars(14, 3) + b
+        + `<rect x="0" y="104" width="360" height="31" fill="#161d33"/><path d="M0 104 H360" stroke="#38bdf8" stroke-width="1" opacity=".4"/>`
+        + `<polyline points="226,98 252,82 272,88 300,62 326,48" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M326 48 l-10 1 M326 48 l-2 10" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>`
+        + fig(150, 108, 1.05, st === "elder" ? "elder" : "adult", { cloth: "#475569", pants: "#1e293b", case: "#92400e", female: !f.isMale });
+    },
+    love(st, f) {
+      return `<circle cx="180" cy="96" r="34" fill="#ffd1a0" opacity=".9"/><circle cx="180" cy="96" r="50" fill="#ffd1a0" opacity=".18"/>` + stars(8, 11)
+        + `<path d="M0 100 Q80 82 180 98 T360 96 V135 H0Z" fill="#3b2a55"/><path d="M0 112 Q120 98 240 110 T360 108 V135 H0Z" fill="#2b1f44"/>`
+        + `<g transform="translate(30 104) scale(1.2)"><rect x="-2" y="-30" width="4" height="30" fill="#2a1d40"/><circle cx="0" cy="-36" r="14" fill="#2a1d40"/></g>`
+        + `<g transform="translate(326 106) scale(1.1)"><rect x="-2" y="-30" width="4" height="30" fill="#2a1d40"/><circle cx="0" cy="-36" r="14" fill="#2a1d40"/></g>`
+        + heart(120, 56, 1.7, "#f43f5e", 0) + heart(244, 44, 1.2, "#fb7185", .8) + heart(196, 36, 2.1, "#f43f5e", .4) + heart(160, 70, .9, "#fda4af", 1.2)
+        + fig(168, 112, 1.05, "adult", { cloth: "#ec4899", female: true, hair: "#4a2c1a" }) + fig(194, 112, 1.08, "adult", { cloth: "#2563eb", hair: "#2b1d12" });
+    },
+    crisis(st, f) {
+      let rain = ""; for (let i = 0; i < 26; i++) rain += `<line class="sc-rain" style="animation-delay:${(i % 7) * .18}s" x1="${14 + i * 14}" y1="${30 + (i * 17) % 40}" x2="${8 + i * 14}" y2="${46 + (i * 17) % 40}" stroke="#9db4d6" stroke-width="1.2" opacity=".6"/>`;
+      return `<ellipse cx="90" cy="26" rx="80" ry="22" fill="#262c42"/><ellipse cx="190" cy="20" rx="90" ry="26" fill="#2c3350"/><ellipse cx="290" cy="28" rx="74" ry="20" fill="#232940"/>`
+        + `<polygon class="sc-flash" points="196,34 178,66 192,66 180,96 214,56 198,56 210,34" fill="#fde047"/>` + rain
+        + `<rect x="0" y="104" width="360" height="31" fill="#171216"/><path d="M40 104 L58 118 L50 135 M70 104 L84 114 M250 104 L236 120 L248 135" stroke="#ef4444" stroke-width="1.8" fill="none" opacity=".85"/>`
+        + `<g fill="#241d26"><path d="M222 104 L228 70 L252 74 L258 104Z"/><path d="M262 104 L268 84 L292 82 L300 104Z"/><path d="M296 104 L306 90 L330 96 L336 104Z"/></g>`
+        + `<path d="M0 135 V122 Q90 112 180 124 T360 120 V135Z" fill="#ef4444" opacity=".18"/>`
+        + fig(120, 108, 1, st, { cloth: "#64748b" });
+    },
+    finance(st, f) {
+      const coins = (x, n) => { let s = ""; for (let i = 0; i < n; i++) s += `<ellipse cx="${x}" cy="${104 - i * 6}" rx="13" ry="4.5" fill="#fbbf24" stroke="#b45309" stroke-width="1"/>`; return s; };
+      return `<circle cx="300" cy="30" r="14" fill="#fff3c4" opacity=".85"/>` + star(40, 22, 1.4, 0) + star(120, 14, 1, .6) + star(250, 22, 1.2, 1.1)
+        + `<rect x="0" y="104" width="360" height="31" fill="#22324a"/>`
+        + `<g><path d="M30 52 L90 52 L60 30Z" fill="#cbd5e1"/><rect x="34" y="54" width="52" height="5" fill="#e2e8f0"/>` + [38, 52, 66, 78].map(x => `<rect x="${x}" y="60" width="6" height="38" fill="#f1f5f9"/>`).join("") + `<rect x="30" y="98" width="60" height="6" fill="#cbd5e1"/></g>`
+        + coins(140, 3) + coins(168, 6) + coins(196, 4) + `<circle class="sc-float" cx="168" cy="52" r="7" fill="#fde047" stroke="#b45309" stroke-width="1.2"/>`
+        + [[236, 34], [256, 50], [276, 66], [296, 78], [316, 92]].map(([x, h], i) => `<rect x="${x}" y="${104 - (98 - h) * .75 - 8}" width="14" height="${(98 - h) * .75 + 8}" rx="1.5" fill="${i > 2 ? "#34d399" : "#60a5fa"}"/>`).join("")
+        + `<polyline points="236,92 258,78 282,70 304,52 328,34" fill="none" stroke="#fde047" stroke-width="2.4" stroke-linecap="round"/><path d="M328 34 l-9 1 M328 34 l-2 9" stroke="#fde047" stroke-width="2.4" stroke-linecap="round"/>`;
+    },
+    family(st, f) {
+      return `<circle cx="310" cy="26" r="14" fill="#ffd36b"/>` + cloud(60, 24, .9) + cloud(250, 34, .7, .8) + hills("#79b66b", "#9fd08a")
+        + tree(44, 108, 1, "#4f9a53") + tree(326, 108, .9, "#5aa75c")
+        + `<rect x="128" y="56" width="104" height="52" fill="#f6d9b0"/><path d="M118 58 L180 22 L242 58Z" fill="#c2563b"/><rect x="214" y="30" width="12" height="22" fill="#a14631"/>`
+        + `<rect x="168" y="80" width="24" height="28" rx="3" fill="#7a4b2a"/><rect x="140" y="68" width="18" height="16" rx="2" fill="#ffe08a"/><rect x="202" y="68" width="18" height="16" rx="2" fill="#ffe08a"/>`
+        + heart(180, 44, 1.1, "#f43f5e", .2)
+        + `<path d="M96 108 V98 M104 108 V98 M112 108 V98 M248 108 V98 M256 108 V98 M264 108 V98" stroke="#fff" stroke-width="3" opacity=".8"/>`
+        + fig(150, 116, 1, "adult", { cloth: "#2563eb" }) + fig(210, 116, 1, "adult", { cloth: "#ec4899", female: true }) + fig(180, 120, 1, "child", { cloth: "#f59e0b" });
+    },
+    abroad(st, f) {
+      return cloud(70, 28, 1) + cloud(280, 20, .7, .8)
+        + `<g class="sc-fly"><path d="M-40 40 H80" stroke="#fff" stroke-width="2" stroke-dasharray="4 5" opacity=".8"/><g transform="translate(100 40)"><path d="M-22 0 L10 -4 L26 -12 L28 -8 L16 0 L28 8 L26 12 L10 4 L-22 2Z" fill="#fff"/><path d="M-22 0 L-28 -9 L-20 -6Z" fill="#e5e7eb"/></g></g>`
+        + `<circle cx="300" cy="62" r="26" fill="#2563eb"/><path d="M286 48 q12 -4 18 6 q-6 10 -14 8 q-6 -4 -4 -14Z M304 70 q10 -2 14 6 q-6 8 -14 4Z" fill="#34d399"/><ellipse cx="300" cy="62" rx="26" ry="9" fill="none" stroke="#fff" stroke-width=".7" opacity=".6"/><ellipse cx="300" cy="62" rx="10" ry="26" fill="none" stroke="#fff" stroke-width=".7" opacity=".6"/>`
+        + `<rect x="0" y="104" width="360" height="31" fill="#2f6f63"/>`
+        + `<g fill="#35506b"><rect x="130" y="76" width="22" height="30"/><rect x="156" y="62" width="18" height="44"/><rect x="178" y="82" width="26" height="24"/><path d="M212 106 L220 50 L228 106Z"/><circle cx="220" cy="48" r="3"/></g>` + [136, 164, 186].map(x => win(x, 84, 5, 5, 1)).join("")
+        + `<g transform="translate(52 106)"><rect x="-14" y="-24" width="28" height="22" rx="3" fill="#b45309"/><rect x="-6" y="-29" width="12" height="5" rx="2" fill="none" stroke="#7c3a06" stroke-width="2"/><rect x="-14" y="-14" width="28" height="3" fill="#7c3a06" opacity=".6"/></g>`
+        + fig(98, 110, 1, st, { cloth: "#0ea5e9", female: !f.isMale });
+    },
+    elder(st, f) {
+      return `<circle cx="248" cy="80" r="30" fill="#ffc48a" opacity=".9"/><circle cx="248" cy="80" r="46" fill="#ffc48a" opacity=".18"/>` + stars(10, 5)
+        + `<path d="M0 92 L50 64 L96 90 L150 58 L210 92 L270 70 L360 96 V135 H0Z" fill="#3d355a" opacity=".9"/><path d="M0 108 Q120 94 240 106 T360 104 V135 H0Z" fill="#2c2840"/>`
+        + `<g transform="translate(64 108)"><rect x="-3" y="-30" width="6" height="30" rx="2" fill="#4a3426"/><circle cx="0" cy="-40" r="18" fill="#c2763a"/><circle cx="-12" cy="-30" r="11" fill="#d98e3f"/><circle cx="12" cy="-32" r="12" fill="#b4602f"/></g>`
+        + [0, 1, 2, 3].map(i => `<path class="sc-leaf" style="animation-delay:${i * .9}s" d="M${52 + i * 14} 50 q4 -3 6 2 q-4 3 -6 -2Z" fill="#e08a3c"/>`).join("")
+        + `<rect x="140" y="92" width="64" height="5" rx="2" fill="#8a5a34"/><rect x="144" y="97" width="4" height="10" fill="#6b4a2f"/><rect x="196" y="97" width="4" height="10" fill="#6b4a2f"/><rect x="140" y="82" width="64" height="4" rx="2" fill="#8a5a34"/>`
+        + fig(172, 94, 1, "elder", { cloth: "#8b7ec8", female: !f.isMale })
+        + `<path class="sc-fly2" d="M300 40 q5 -5 10 0 q5 -5 10 0" stroke="#fff" stroke-width="1.6" fill="none"/>`;
+    },
+    world(st, f) {
+      return stars(34, 19) + `<circle cx="180" cy="70" r="44" fill="#1d4ed8"/><circle cx="180" cy="70" r="44" fill="url(#gl)"/>`
+        + `<path d="M150 52 q14 -10 26 -2 q4 12 -8 18 q-16 6 -18 -16Z M186 74 q14 -4 22 6 q-4 16 -20 14 q-8 -8 -2 -20Z" fill="#34d399"/>`
+        + `<ellipse cx="180" cy="70" rx="70" ry="16" fill="none" stroke="#93c5fd" stroke-width="1" opacity=".6" transform="rotate(-18 180 70)"/><g class="sc-orbit"><circle cx="248" cy="52" r="3.5" fill="#fde047"/></g>`
+        + `<path d="M118 70 H242 M180 26 V114 M138 40 Q180 56 222 40 M138 100 Q180 84 222 100" stroke="#fff" stroke-width=".6" fill="none" opacity=".35"/>`
+        + `<path d="M268 44 q10 6 10 18 M274 36 q16 10 16 28" stroke="#60a5fa" stroke-width="1.6" fill="none" stroke-linecap="round" class="sc-tw"/>`;
+    }
+  };
+
+  function sceneHtml(cat, g, ev) {
+    const P = PAL[cat] || PAL.career, id = "sg" + (++uid), st = stageOf(g.age);
+    const c = g.country, cc = c.colors || ["#e8b45c", "#e8b45c"];
+    let body = (SC[cat] || SC.career)(st, g);
+    const poor = g.cls === "poor", rich = /^(rich|fame|elite)/.test(g.cls || "");
+    const overlay = poor ? `<rect width="360" height="135" fill="#2b2b36" opacity=".22"/>` : "";
+    const spark = rich ? star(30, 18, 1.8, 0) + star(330, 14, 1.4, .5) + star(200, 8, 1.6, 1) + star(310, 80, 1.2, 1.4) : "";
+    return `<div class="scene" style="--cat:${P[3]}"><svg viewBox="0 0 360 135" preserveAspectRatio="xMidYMid slice" aria-hidden="true">`
+      + `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P[0]}"/><stop offset="1" stop-color="${P[1]}"/></linearGradient>`
+      + `<radialGradient id="gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></radialGradient></defs>`
+      + `<rect width="360" height="135" fill="url(#${id})"/>` + body + overlay + spark
+      + `<rect y="131" width="180" height="4" fill="${cc[0]}"/><rect x="180" y="131" width="180" height="4" fill="${cc[1] || cc[0]}"/></svg>`
+      + `<span class="scene-chip">${P[5]} ${P[4]} · ${STAGES[st]}</span><span class="scene-flag">${c.flag}</span></div>`;
+  }
+
+  // ---- Atmosfer: yaş evresi + durum ----
+  const STAGE_COL = { baby: ["#f9a8d4", "#fcd34d"], child: ["#fbbf24", "#38bdf8"], teen: ["#a78bfa", "#22d3ee"], adult: ["#3b82f6", "#f59e0b"], elder: ["#c084fc", "#fb923c"] };
+  const MOOD = { crisis: ["#ef4444", "#7f1d1d"], finance: ["#f59e0b", "#fbbf24"], abroad: ["#06b6d4", "#3b82f6"], love: ["#ec4899", "#8b5cf6"], world: ["#3b82f6", "#1e3a8a"] };
+  function theme(cat, g) {
+    const a = document.getElementById("atmos"); if (!a) return;
+    const col = MOOD[cat] || STAGE_COL[stageOf(g.age)];
+    a.style.setProperty("--a1", col[0]); a.style.setProperty("--a2", col[1]);
+    document.body.dataset.stage = stageOf(g.age); document.body.dataset.cat = cat;
+    const card = document.getElementById("story-card"); if (card) card.style.setProperty("--cat", (PAL[cat] || PAL.career)[3]);
+  }
+
+  // ---- Sahneyi yıllık olay listesine yerleştir ----
+  function inject() {
+    const list = document.getElementById("event-list");
+    if (!list || list.querySelector(".scene") || typeof gameState === "undefined" || !gameState || !gameState.active || typeof current === "undefined" || !current || !current.ev) return;
+    const cat = classify(current.ev, gameState);
+    const h3 = list.querySelector("h3"), wrap = document.createElement("div");
+    wrap.innerHTML = sceneHtml(cat, gameState, current.ev);
+    const sc = wrap.firstChild; sc.classList.add("scene-in");
+    list.insertBefore(sc, h3 || list.firstChild);
+    theme(cat, gameState);
+  }
+
+  function init() {
+    if (!document.getElementById("atmos")) { const d = document.createElement("div"); d.id = "atmos"; document.body.insertBefore(d, document.body.firstChild); }
+    const sc = document.getElementById("story-content");
+    if (sc) new MutationObserver(inject).observe(sc, { childList: true });
+    const cb = document.getElementById("choices-container");
+    if (cb) new MutationObserver(() => { if (!cb.querySelector(".vcard")) document.body.classList.remove("choosing"); }).observe(cb, { childList: true });
+    // Eğilme (tilt) + parlama: masaüstünde fare, dokunmatikte parmak noktası
+    const box = document.getElementById("choices-container"); let raf = 0;
+    const tilt = (c, e) => { const r = c.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { c.style.setProperty("--rx", ((.5 - py) * 7).toFixed(2) + "deg"); c.style.setProperty("--ry", ((px - .5) * 9).toFixed(2) + "deg"); c.style.setProperty("--gx", (px * 100).toFixed(0) + "%"); c.style.setProperty("--gy", (py * 100).toFixed(0) + "%"); }); };
+    const rest = c => { cancelAnimationFrame(raf); c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); };
+    if (box) {
+      box.addEventListener("pointermove", e => { const c = e.target.closest && e.target.closest(".dcard"); if (c && e.pointerType !== "touch") tilt(c, e); }, { passive: true });
+      box.addEventListener("pointerdown", e => { const c = e.target.closest && e.target.closest(".dcard"); if (c) tilt(c, e); }, { passive: true });
+      ["pointerup", "pointercancel", "pointerout"].forEach(t => box.addEventListener(t, e => { const c = e.target.closest && e.target.closest(".dcard"); if (c && (t !== "pointerout" || !c.contains(e.relatedTarget))) rest(c); }, { passive: true }));
+    }
+  }
+  // Seçim kartları görününce odak onlarda: kaydır + çevre soluklaşsın
+  function focus() {
+    document.body.classList.add("choosing");
+    if (window.__fast) return;
+    setTimeout(() => {
+      const c = document.getElementById("choices-container"); if (!c || !document.body.classList.contains("choosing")) return;
+      const r = c.getBoundingClientRect(), vh = window.innerHeight;
+      window.scrollBy({ top: r.height < vh * .92 ? r.top + r.height / 2 - vh / 2 : r.top - 12, behavior: "smooth" });
+    }, 220);
+  }
+  function unfocus() { document.body.classList.remove("choosing"); }
+  return { init, classify, sceneHtml, theme, stageOf, focus, unfocus };
+})();
+
+// Seçim animasyonu: seçilen kart büyüyüp parlar, diğerleri kayarak kaybolur; sonra asıl makeChoice çalışır
+(function () {
+  const _mc = makeChoice; let busy = false;
+  makeChoice = function (i) {
+    const box = document.getElementById("choices-container"), cards = box ? [...box.querySelectorAll(".dcard")] : [];
+    if (busy) return;
+    if (window.__fast || window.__auto || !cards.length || (typeof locked !== "undefined" && locked)) return _mc(i);
+    busy = true; cards.forEach((c, k) => c.classList.add(k === i ? "picked" : "out"));
+    setTimeout(() => { busy = false; _mc(i); if (!window.__fast) { const c = document.getElementById("choices-container"); if (c) c.scrollIntoView({ behavior: "smooth", block: "nearest" }); } }, 240);
+  };
+})();
+if (document.readyState !== "loading") Cards.init(); else document.addEventListener("DOMContentLoaded", Cards.init);
+
+// ---- Resimli seçim kartı: üstte illüstrasyon (SVG fon + emoji), altında yazı ----
+const EMO_RE = /^((?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:\uFE0F|\u200D\p{Extended_Pictographic}|\p{Emoji_Modifier}|\p{Regional_Indicator})*)\s*/u;
+const CARD_HUES = [["#f59e0b", "#ef4444"], ["#38bdf8", "#6366f1"], ["#34d399", "#0ea5e9"], ["#f472b6", "#8b5cf6"], ["#fbbf24", "#22c55e"], ["#fb7185", "#f97316"]];
+const CARD_FALL = ["🎲", "🧭", "💭", "⚡", "🌟", "🔑"];
+function choiceCard(ch, i, cat) {
+  const raw = String(ch.text || ""), m = EMO_RE.exec(raw);
+  const emo = m ? m[1] : CARD_FALL[i % CARD_FALL.length], label = m ? raw.slice(m[0].length) : raw;
+  const h = CARD_HUES[(i + (cat ? cat.length : 0)) % CARD_HUES.length], uid = "cv" + i;
+  const rays = Array.from({ length: 9 }, (_, k) => { const a = (k / 9) * Math.PI * 2; return `<path d="M100 78 L${(100 + Math.cos(a) * 190).toFixed(0)} ${(78 + Math.sin(a) * 190).toFixed(0)} L${(100 + Math.cos(a + .17) * 190).toFixed(0)} ${(78 + Math.sin(a + .17) * 190).toFixed(0)}Z" fill="#fff" opacity=".07"/>`; }).join("");
+  const art = `<svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${h[0]}"/><stop offset="1" stop-color="${h[1]}"/></linearGradient></defs>`
+    + `<rect width="200" height="150" fill="url(#${uid})"/>${rays}<circle cx="34" cy="28" r="22" fill="#fff" opacity=".10"/><circle cx="172" cy="118" r="30" fill="#000" opacity=".10"/><circle cx="168" cy="30" r="8" fill="#fff" opacity=".18"/>`
+    + `<path d="M0 122 Q50 108 100 120 T200 116 V150 H0Z" fill="#000" opacity=".18"/><ellipse cx="100" cy="118" rx="34" ry="7" fill="#000" opacity=".25"/></svg>`;
+  return `<button onclick="makeChoice(${i})" class="dcard vcard" style="--i:${i}" aria-label="${label.replace(/"/g, "&quot;")}"><div class="vc-art">${art}<span class="vc-emoji">${emo}</span><span class="dc-k">${"ABCDEFGH"[i] || i + 1}</span></div><div class="vc-txt">${label}</div></button>`;
+}
     </script>
 </body>
 </html>

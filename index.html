@@ -318,8 +318,10 @@ const grandkids = () => gameState.family.filter(f => f.rel === "Torun");
 const spouse = () => gameState.family.find(f => f.rel === "Eş" && alive(f));
 const parentsAlive = () => gameState.family.filter(f => (f.rel === "Baba" || f.rel === "Anne") && alive(f));
 const parentsDead = () => gameState.family.filter(f => (f.rel === "Baba" || f.rel === "Anne") && !alive(f));
-const maleN = () => rnd(gameState.country.maleNames);
-const femaleN = () => rnd(gameState.country.femaleNames);
+const takenFirst = () => { const t = new Set(); if (gameState) { if (gameState.name) t.add(gameState.name.split(" ")[0]); (gameState.family || []).forEach(f => t.add(f.name.split(" ")[0])); Object.values(gameState.cast || {}).forEach(c => t.add(c.name)); } return t; };
+const freshN = pool => { const t = takenFirst(), ok = pool.filter(n => !t.has(n)); return rnd(ok.length ? ok : pool); };
+const maleN = () => freshN(gameState.country.maleNames);
+const femaleN = () => freshN(gameState.country.femaleNames);
 
 function marry(name) {
   if (spouse()) return;
@@ -357,8 +359,8 @@ function FL(id, min, max, title, scen, o) {
 }
 const romCtx = () => {
   const pool = gameState.isMale ? gameState.country.femaleNames : gameState.country.maleNames;
-  const p = rnd(pool); let q = rnd(pool), n = 0;
-  while (q === p && n++ < 10) q = rnd(pool);
+  const p = freshN(pool); let q = freshN(pool), n = 0;
+  while (q === p && n++ < 10) q = freshN(pool);
   return { p, q };
 };
 
@@ -1489,7 +1491,7 @@ X("ad_overwork", 25, 55, [], "🕙 Gece Yarısı Mesaisi", ["İş yerinde mesai 
   C("💪 Çalışmaya devam et.", -8, -4, .3, "Terfi geldi; ama dinlenmeye vakit kalmadı.", { gamble: { p: .25, h: -20, res: "Ofiste bayıldın; hastanede uyandın." } }),
   C("🚪 Zamanında çık.", 3, 5, -.05, "Biraz ters bakıldı ama sağlığın korundu.", {})], RG("easia"));
 X("ad_arranged", 24, 36, [], "💍 Görücü Teklifi", ["Ailen senin için uygun bir eş adayı buldu.", "Karşı aile ile tanışma yemeği hazırlanıyor.", "Teklife nasıl yaklaşacaksın?"], () => {
-  const pool = gameState.isMale ? gameState.country.femaleNames : gameState.country.maleNames, p = rnd(pool);
+  const pool = gameState.isMale ? gameState.country.femaleNames : gameState.country.maleNames, p = freshN(pool);
   return [
     C(`💍 ${p} ile tanışıp evlen.`, 2, 6, -.1, `${p} ile mutlu bir yuva kurdun.`, { t: { aile: 2 }, fx: () => marry(p) }),
     C("🚫 Kendi eşini seçeceğini söyle.", 0, -3, 0, "Ailenle tartıştın ama kararın senin.", { t: { cesur: 1 } })];
@@ -1891,7 +1893,8 @@ function renderYear() {
   const fl = (ev.id.startsWith("world_") || ev.id === "birth") ? null : familyLine();
   if (fl) story.push(fl);
   const choices = typeof ev.choices === "function" ? ev.choices(x) : ev.choices;
-  current = { ev, x, choices };
+  const nm = (typeof famNamer === "function") ? famNamer() : (s => s);
+  current = { ev, x, choices, nm };
   locked = false;
 
   document.getElementById("choices-container").innerHTML = "";
@@ -1909,7 +1912,7 @@ function renderYear() {
         if (!ok()) return;
         const p = document.createElement("p");
         p.className = "bg-slate-900/50 p-4 rounded-2xl border border-slate-800/80 shadow-sm opacity-0 transform translate-y-2 transition-all duration-500";
-        p.innerHTML = line;
+        p.innerHTML = nm(line);
         document.getElementById("event-list").appendChild(p);
         setTimeout(() => { p.style.opacity = "1"; p.style.transform = "translateY(0)"; }, 30);
       }, D(i * 700));
@@ -1984,7 +1987,7 @@ function makeChoice(i) {
   if (g.annualSalary !== before.s) chips += chip(`💵 Yıllık gelir: ${fmt(g.annualSalary)} ${cur}`, g.annualSalary > before.s ? good : badc);
   document.getElementById("choices-container").innerHTML = `
     <div class="fade-in space-y-4 mt-4">
-      <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-sm sm:text-base text-slate-100">${res || "Karar verildi."}</div>
+      <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-sm sm:text-base text-slate-100">${(current && current.nm ? current.nm(res || "Karar verildi.") : (res || "Karar verildi."))}</div>
       <div class="flex flex-wrap gap-2">${chips}</div>
       <button onclick="nextYear()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-2xl shadow-lg transition text-sm sm:text-base">Sonraki Yıl ▶</button>
     </div>`;
@@ -3026,6 +3029,218 @@ E("ab_return_offer", 30, 72, "🛬 Eve Dönüş Teklifi", x => [
   C("🛬 Eve dön.", 0, 5, 0, `Valizini kapatırken ağladın ama gülüyordun.`, { t: { aile: 1 }, fx: () => returnHome("choice") }),
   C(`${x.d.flag} Burada kal.`, 0, 1, 0, `Artık burası da evin.`, {})],
   AB({ cd: 12, w: 2, cond: () => !!(gameState.abroad && gameState.age - gameState.abroad.since >= 4) }));
+
+// ================= Aile bireylerini isimleriyle an =================
+// Hikâyedeki "annen", "baban", "eşin", "çocuğun", "kardeşin" ifadelerinden sonra kişinin adı (ve Türkçe ek) eklenir.
+// Her olay boyunca her yakın için yalnızca ilk geçişte yapılır; ad zaten metinde varsa dokunulmaz.
+function trSuffix(name, kind) {
+  const n = name.toLocaleLowerCase("tr").replace(/[^a-zçğıöşüâîûéèêáàíóúñ]/g, "");
+  const V = "aeıioöuüâîûéèêáàíóú", vow = ch => V.includes(ch);
+  let lv = "a"; for (let i = n.length - 1; i >= 0; i--) if (vow(n[i])) { lv = n[i]; break; }
+  const back = "aıouâûáàóú".includes(lv), rounded = "ouöü".includes(lv);
+  const endsV = vow(n[n.length - 1]), voiceless = "çfhkpsşt".includes(n[n.length - 1]);
+  const four = back ? (rounded ? "u" : "ı") : (rounded ? "ü" : "i"), two = back ? "a" : "e";
+  switch (kind) {
+    case "gen": return endsV ? "'n" + four + "n" : "'" + four + "n";
+    case "acc": return endsV ? "'y" + four : "'" + four;
+    case "dat": return endsV ? "'y" + two : "'" + two;
+    case "loc": return "'" + (voiceless ? "t" : "d") + two;
+    case "abl": return "'" + (voiceless ? "t" : "d") + two + "n";
+    case "com": return endsV ? "'yl" + two : "'l" + two;
+  }
+  return "";
+}
+const NAME_KIND = { "in": "gen", "ın": "gen", "i": "acc", "ı": "acc", "e": "dat", "a": "dat", "de": "loc", "da": "loc", "den": "abl", "dan": "abl", "le": "com", "la": "com" };
+function famNamer() {
+  const fam = () => gameState.family || [];
+  let sibPick = null;
+  const sibOf = gender => { const s = fam().filter(f => f.rel === "Kardeş" && f.gender === gender && f.alive !== false); if (!s.length) return null; return s.find(f => f.age > gameState.age) || s[0]; };
+  const pick = {
+    anne: () => fam().find(f => f.rel === "Anne" && f.alive !== false) || fam().find(f => f.rel === "Anne"),
+    baba: () => fam().find(f => f.rel === "Baba" && f.alive !== false) || fam().find(f => f.rel === "Baba"),
+    es: () => fam().find(f => f.rel === "Eş" && f.alive !== false),
+    torun: () => fam().find(f => f.rel === "Torun" && f.alive !== false),
+    kardes: () => { const s = fam().filter(f => f.rel === "Kardeş" && f.alive !== false); if (!s.length) return null; if (!sibPick) sibPick = s[Math.floor(Math.random() * s.length)]; return s.includes(sibPick) ? sibPick : s[0]; },
+    abla: () => sibOf("female"),
+    abi: () => sibOf("male"),
+    cocuk: () => { const k = fam().filter(f => (f.rel === "Oğul" || f.rel === "Kız") && f.alive !== false); return k.length ? k.reduce((a, b) => (b.age < a.age ? b : a)) : null; }
+  };
+  // [kök, tür, ek kalıbı]
+  const rules = [["annen", "anne", "(in|i|e|de|den|le)?"], ["baban", "baba", "(ın|ı|a|da|dan|la)?"], ["eşin", "es", "(in|i|e|de|den|le)?"], ["kardeşin", "kardes", "(in|i|e|de|den|le)?"], ["ablan", "abla", "(ın|ı|a|da|dan|la)?"], ["abin", "abi", "(in|i|e|de|den|le)?"], ["çocuğun", "cocuk", "(u|a|da|dan|la|un)?"], ["torunun", "torun", "(un|u|a|da|dan|la)?"]];
+
+  // ---- Kalıcı figüran kadrosu: arkadaş, komşu, öğretmen, patron... her biri bir isim taşır ----
+  const g0 = () => gameState;
+  const castName = (key, sig) => {
+    const g = g0(); g.cast = g.cast || {};
+    const c = g.cast[key];
+    if (c && c.sig === sig) return c.name;
+    const d = g.country, taken = new Set((g.family || []).map(f => f.name.split(" ")[0]).concat(Object.values(g.cast).map(x => x.name.split(" ")[0])));
+    let nmv, tries = 0;
+    const pl = /^(anneanne|babaanne)$/.test(key) ? d.femaleNames : key === "dede" ? d.maleNames : d.maleNames.concat(d.femaleNames);
+    do { nmv = rnd(pl); } while (taken.has(nmv) && ++tries < 12);
+    g.cast[key] = { name: nmv, sig }; return nmv;
+  };
+  const place = () => (gameState.abroad ? "ab" + gameState.country.name : gameState.country.name);
+  const ageBand = () => { const a = gameState.age; return a < 6 ? 0 : a < 11 ? 1 : a < 15 ? 2 : a < 19 ? 3 : a < 25 ? 4 : 5; };
+  // [kök, anahtar, imza(), unvan mı?]
+  const roles = [
+    ["yanındaki çocuk", "sinif", () => place() + ageBand(), false],
+    ["iş arkadaş", "meslektas", () => place() + gameState.job, false],
+    ["meslektaş", "meslektas", () => place() + gameState.job, false],
+    ["arkadaş", "arkadas", () => place(), false],
+    ["komşu", "komsu", () => place() + (gameState.city || ""), false],
+    ["öğretmen", "ogretmen", () => place() + ageBand(), true],
+    ["müdür", "mudur", () => place() + ageBand() + gameState.job, true],
+    ["patron", "patron", () => place() + gameState.job, true],
+    ["doktor", "doktor", () => place(), true],
+    ["hemşire", "hemsire", () => place(), true],
+    ["avukat", "avukat", () => place(), true],
+    ["kuzen", "kuzen", () => gameState.origin ? gameState.origin.name : gameState.country.name, false],
+    ["ortak", "ortak", () => place() + gameState.job, false],
+    ["anneanne", "anneanne", () => gameState.origin ? gameState.origin.name : gameState.country.name, false],
+    ["babaanne", "babaanne", () => gameState.origin ? gameState.origin.name : gameState.country.name, false],
+    ["dede", "dede", () => gameState.origin ? gameState.origin.name : gameState.country.name, false]
+  ];
+  const L = "A-Za-zÇĞİÖŞÜçğıöşüâîû";
+  const REST = /^(?:|n|ın|in|un|ün|nun|nün|nın|nin|ı|i|u|ü|yı|yi|yu|yü|nı|ni|nu|nü|a|e|ya|ye|na|ne|da|de|dan|den|nda|nde|ndan|nden|la|le|yla|yle|nla|nle|ınla|inle|unla|ünle|ına|ine|una|üne|ını|ini|unu|ünü|ında|inde|undan|ından|inden|ının|inin|unun|ünün|ınla|inin)$/;
+  const POSS2 = new Set(["", "n", "ın", "in", "un", "ün"]);
+  function nameRoles(out, usedRoles) {
+    for (const [stem, key, sigf, title] of roles) {
+      if (usedRoles.has(key)) continue;
+      const re = new RegExp("(^|[^" + L + "])(" + stem + ")([" + L + "]*)(?![" + L + "])", "i");
+      let off = 0, found = null;
+      // ilk uygun (tekil) eşleşmeyi bul
+      while (true) {
+        const sub = out.slice(off), m = re.exec(sub); if (!m) break;
+        const start = off + m.index + m[1].length, end = start + m[2].length + m[3].length;
+        const word = m[2] + m[3];
+        if (REST.test(m[3].toLocaleLowerCase("tr")) && !/^\s*<b>/.test(out.slice(end)) && !/<b>[^<]{2,25}<\/b>['’]?[a-zçğıöşü]*\s*$/.test(out.slice(Math.max(0, start - 40), start))) { found = { start, end, word, rest: m[3].toLocaleLowerCase("tr"), stemTxt: m[2] }; break; }
+        off = end; if (off >= out.length) break;
+      }
+      if (!found) continue;
+      // kök, kelime bir bileşiğin parçasıysa dokunma (ör. "komşu sohbetleri")
+      const after = out.slice(found.end, found.end + 12);
+      if (/^\s+(sohbet|kadın|ev|kapı|duvar|teyze|amca)/i.test(after) && found.rest === "" && key === "komsu" && !/^\s+(kadın|teyze|amca)/i.test(after)) continue;
+      const nm = castName(key, sigf());
+      if (out.includes(nm)) { usedRoles.add(key); continue; }
+      let rep;
+      const pre = out.slice(Math.max(0, found.start - 6), found.start).toLocaleLowerCase("tr");
+      if (POSS2.has(found.rest) && !/^\s+(kadın|teyze|amca)/i.test(after)) {
+        // "arkadaşın <b>Ali</b>", "Müdür <b>Ayşe</b>"
+        rep = found.word + " <b>" + nm + "</b>";
+        out = out.slice(0, found.start) + rep + out.slice(found.end);
+      } else {
+        // "<b>Ali</b> adlı komşunla" — ek ve çekim bozulmaz; "bir" varsa "adında bir" biçimi
+        const bir = /bir\s$/i.test(out.slice(Math.max(0, found.start - 4), found.start));
+        const lw = found.word.charAt(0).toLocaleLowerCase("tr") + found.word.slice(1);
+        if (bir) {
+          const bs = found.start - out.slice(0, found.start).match(/bir\s+$/i)[0].length;
+          out = out.slice(0, bs) + (bs === 0 || /[.!?]\s*$|>\s*$/.test(out.slice(0, bs)) ? "" : "") + "<b>" + nm + "</b> adında " + out.slice(bs, bs + 1).toLocaleLowerCase("tr") + out.slice(bs + 1, found.start) + lw + out.slice(found.end);
+        } else {
+          const cap = found.word.charAt(0) !== lw.charAt(0) && /(^|[.!?]\s*|>\s*)$/.test(out.slice(0, found.start));
+          out = out.slice(0, found.start) + "<b>" + nm + "</b> adlı " + lw + out.slice(found.end);
+        }
+      }
+      usedRoles.add(key);
+    }
+    return out;
+  }
+  // "kardeşlere", "çocukların" gibi çoğul aile ifadelerine isimleri ekle
+  function namePlurals(out, usedRoles) {
+    const fam = gameState.family || [];
+    const list = arr => arr.slice(0, 4).map(f => "<b>" + f.name.split(" ")[0] + "</b>").join(", ").replace(/, ([^,]*)$/, " ve $1");
+    const sibs = fam.filter(f => f.rel === "Kardeş" && f.alive !== false), kids = fam.filter(f => (f.rel === "Oğul" || f.rel === "Kız") && f.alive !== false);
+    if (sibs.length > 1 && !usedRoles.has("kardesler")) {
+      const m = new RegExp("(^|[^" + L + "])(kardeşler[" + L + "]*)(?![" + L + "])", "i").exec(out);
+      if (m) { const e = m.index + m[1].length + m[2].length; out = out.slice(0, e) + " (" + list(sibs) + ")" + out.slice(e); usedRoles.add("kardesler"); }
+    }
+    if (!usedRoles.has("arkadaslar")) {
+      const m = new RegExp("(^|[^" + L + "])(arkadaşlar[" + L + "]*)(?![" + L + "])", "i").exec(out);
+      if (m && !/^\s*\(/.test(out.slice(m.index + m[1].length + m[2].length))) {
+        const a = castName("arkadas", place()), b = castName("arkadas2", place());
+        const e = m.index + m[1].length + m[2].length; out = out.slice(0, e) + " (<b>" + a + "</b> ve <b>" + b + "</b>)" + out.slice(e); usedRoles.add("arkadaslar");
+      }
+    }
+    if (kids.length > 1 && !usedRoles.has("cocuklar")) {
+      const m = new RegExp("(^|[^" + L + "])(çocukların[" + L + "]*)(?![" + L + "])", "i").exec(out);
+      if (m) { const e = m.index + m[1].length + m[2].length; out = out.slice(0, e) + " (" + list(kids) + ")" + out.slice(e); usedRoles.add("cocuklar"); }
+    }
+    return out;
+  }
+  return function (html) {
+    if (typeof html !== "string" || !gameState) return html;
+    let out = html; const used = new Set(), usedRoles = new Set();
+    // Metin bir kardeşten söz ediyor ama henüz yoksa: tutarlı bir kardeş yarat
+    if (/(^|[^A-Za-zÇĞİÖŞÜçğıöşü])(yeni )?(küçük )?kardeş(in|ine|ini|ler)/i.test(out) && !/kardeşin (yok|olmad)/i.test(out) && !fam().some(f => f.rel === "Kardeş")) {
+      const boy = Math.random() < 0.5, d = gameState.country, nn = freshN(boy ? d.maleNames : d.femaleNames), young = /yeni kardeş/i.test(out) || gameState.age < 5;
+      const sibAge = young ? 0 : Math.max(0, gameState.age - 2 - Math.floor(Math.random() * 4));
+      gameState.family.push({ name: nn + " " + surname(), age: sibAge, rel: "Kardeş", gender: boy ? "male" : "female", alive: true });
+    }
+    if (/kardeşler/i.test(out) && fam().filter(f => f.rel === "Kardeş").length < 2 && !/\(<b>/.test(out)) {
+      const boy = Math.random() < 0.5, d = gameState.country;
+      gameState.family.push({ name: freshN(boy ? d.maleNames : d.femaleNames) + " " + surname(), age: Math.max(0, gameState.age - 3), rel: "Kardeş", gender: boy ? "male" : "female", alive: true });
+    }
+    if (/abinden kalma/i.test(out) && !fam().some(f => f.rel === "Kardeş" && f.gender === "male" && f.alive !== false)) out = out.replace(/abinden kalma/gi, "bir akrabandan kalma");
+    for (const [stem, kind, suf] of rules) {
+      if (used.has(kind)) continue;
+      const m = pick[kind](); if (!m) continue;
+      const first = m.name.split(" ")[0];
+      if (out.toLocaleLowerCase("tr").includes(first.toLocaleLowerCase("tr"))) { used.add(kind); continue; }
+      const re = new RegExp("(^|[^A-Za-zÇĞİÖŞÜçğıöşü])(" + stem.replace(/^./, c => "[" + c + c.toUpperCase() + "]") + ")" + suf + "(?![A-Za-zÇĞİÖŞÜçğıöşü])");
+      const mm = re.exec(out); if (!mm) continue;
+      { const nx = /^\s+([A-ZÇĞİÖŞÜ][a-zçğıöşü]+)/.exec(out.slice(mm.index + mm[0].length)); if (nx && !countries.some(c => c.name.split(" ")[0] === nx[1])) { used.add(kind); continue; } }
+      let k = NAME_KIND[mm[3] || ""] || "";
+      if (kind === "cocuk" && (mm[3] === "u" || mm[3] === "un")) k = mm[3] === "u" ? "acc" : "gen";
+      const lead = mm[2] + (kind === "cocuk" ? "" : "");
+      // "annen" + ad: ek, ada taşınır ("annen Ayşe'ye")
+      const replacement = mm[1] + mm[2] + " <b>" + first + "</b>" + (k ? trSuffix(first, k) : "");
+      out = out.slice(0, mm.index) + replacement + out.slice(mm.index + mm[0].length);
+      used.add(kind);
+    }
+    out = namePlurals(out, usedRoles);
+    out = nameRoles(out, usedRoles);
+    return out;
+  };
+}
+
+// ---- Genişletilmiş isim havuzları (aynı ailede çakışmayı önler) ----
+(function () {
+  const X = {
+    "Hindistan": [["Arjun","Rohan","Kabir","Ishaan","Vivaan","Dev","Krish"],["Saanvi","Myra","Kavya","Riya","Pooja","Meera","Tara"]],
+    "Çin": [["Jun","Bo","Tao","Chen","Yong","Kai","Lei"],["Mei","Xiu","Lan","Yan","Qing","Hua","Ling"]],
+    "Amerika Birleşik Devletleri": [["Daniel","Ethan","Jacob","Logan","Ryan","Tyler","Henry"],["Olivia","Madison","Hannah","Grace","Abigail","Chloe","Lily"]],
+    "Endonezya": [["Budi","Dewa","Eko","Hendra","Rizky","Putra","Joko"],["Dewi","Sari","Wulan","Ayu","Rina","Putri","Indah"]],
+    "Pakistan": [["Ali","Hamza","Bilal","Usman","Imran","Zain","Faisal"],["Ayesha","Fatima","Sana","Hira","Noor","Maryam","Saima"]],
+    "Nijerya": [["Emeka","Chidi","Tunde","Segun","Ikenna","Obinna","Kunle"],["Ngozi","Amara","Funmi","Chioma","Bisi","Adaeze","Yetunde"]],
+    "Brezilya": [["Lucas","Gabriel","Rafael","Thiago","Bruno","Mateus","Caio"],["Camila","Beatriz","Larissa","Juliana","Fernanda","Luana","Sofia"]],
+    "Bangladeş": [["Rahim","Karim","Sabbir","Tanvir","Imran","Jamal","Rafiq"],["Nusrat","Rina","Shirin","Tania","Farhana","Mitu","Salma"]],
+    "Rusya": [["Dmitri","Ivan","Sergei","Nikolai","Pavel","Andrei","Oleg"],["Olga","Natasha","Irina","Svetlana","Katya","Tatiana","Vera"]],
+    "Meksika": [["Diego","Santiago","Mateo","Emiliano","Javier","Carlos","Luis"],["Valeria","Ximena","Camila","Daniela","Lupita","Rosa","Marisol"]],
+    "Etiyopya": [["Yonas","Abebe","Henok","Kebede","Tadesse","Samuel","Biruk"],["Selam","Meron","Hana","Bethlehem","Almaz","Tsion","Rahel"]],
+    "Japonya": [["Haruto","Ren","Sota","Kenji","Takumi","Daichi","Yuto"],["Yui","Sakura","Hana","Aoi","Rin","Mio","Akari"]],
+    "Filipinler": [["Jose","Juan","Miguel","Angelo","Paolo","Carlo","Rico"],["Maria","Ana","Liza","Joy","Grace","Rosalie","Mika"]],
+    "Mısır": [["Ahmed","Mahmoud","Omar","Youssef","Karim","Hassan","Tarek"],["Mona","Nour","Salma","Hoda","Dina","Yasmin","Amira"]],
+    "Demokratik Kongo": [["Patrice","Joseph","Jean","Christian","Didier","Fabrice","Serge"],["Marie","Grace","Esther","Blandine","Sylvie","Nadine","Chantal"]],
+    "Vietnam": [["Minh","Hung","Quang","Duc","Tuan","Nam","Phuc"],["Lan","Mai","Huong","Thao","Linh","Ngoc","Trang"]],
+    "Türkiye": [["Mehmet","Can","Murat","Selim","Onur","Barış","Cem"],["Elif","Ayşe","Selin","Merve","Derya","Esra","Defne"]],
+    "İran": [["Reza","Arash","Kian","Pouya","Navid","Hossein","Babak"],["Shirin","Parisa","Leila","Mahsa","Niloufar","Sara","Roya"]],
+    "Almanya": [["Lukas","Jonas","Felix","Moritz","Stefan","Jan","Tobias"],["Anna","Lena","Hannah","Katharina","Lea","Greta","Sophie"]],
+    "Birleşik Krallık": [["Oliver","Harry","George","Jack","Charlie","Thomas","Arthur"],["Amelia","Isla","Poppy","Freya","Ruby","Charlotte","Eleanor"]],
+    "Fransa": [["Louis","Hugo","Jules","Arthur","Léo","Nicolas","Antoine"],["Camille","Léa","Manon","Inès","Juliette","Clara","Élodie"]],
+    "Güney Kore": [["Minjun","Seojun","Jihoon","Hyunwoo","Dongwoo","Sungmin","Taeyang"],["Seoyeon","Jiwoo","Haeun","Minji","Soyeon","Yuna","Eunji"]]
+  };
+  countries.forEach(c => { const e = X[c.name]; if (e) { e[0].forEach(n => { if (!c.maleNames.includes(n)) c.maleNames.push(n); }); e[1].forEach(n => { if (!c.femaleNames.includes(n)) c.femaleNames.push(n); }); } });
+  // doğumda aile üyelerinin ilk adları birbirinden farklı olsun
+  const _orig = _startNewLife;
+  _startNewLife = function () {
+    const r = _orig.apply(this, arguments), g = gameState; if (!g) return r;
+    const seen = new Set([g.name.split(" ")[0]]);
+    g.family.forEach(f => { let fn = f.name.split(" ")[0], tries = 0;
+      while (seen.has(fn) && tries++ < 20) { fn = rnd(f.gender === "male" ? g.country.maleNames : g.country.femaleNames); }
+      f.name = fn + " " + f.name.split(" ").slice(1).join(" "); seen.add(fn); });
+    return r;
+  };
+})();
     </script>
 </body>
 </html>
